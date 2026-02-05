@@ -107,7 +107,7 @@ const AboutUsSection = () => {
                 Notre vision
               </Heading>
               <Text mb={4} fontSize="lg">
-               Notre vision est de bâtir un futur sans pauvreté, où chaque membre de la COOPEC Microtous a accès à des services financiers fiables et adaptés pour améliorer sa vie. Nous aspirons à être une coopérative reconnue pour son innovation, sa solidarité et son engagement à soutenir la réussite économique de tous nos membres.
+               Notre vision est de bâtir un Empire sans pauvreté, où chaque membre de la COOPEC Microtous a accès à des services financiers fiables et adaptés pour améliorer sa vie. Nous aspirons à être une coopérative reconnue pour son innovation, sa solidarité et son engagement à soutenir la réussite économique de tous nos membres.
               </Text>
             </Box>
           </Grid>
