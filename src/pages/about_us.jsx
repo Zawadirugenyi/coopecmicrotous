@@ -73,7 +73,7 @@ const AboutUsSection = () => {
                 Qui sommes-nous ?
               </Heading>
               <Text mb={4} fontSize="lg">
-              Nous sommes une coopérative d’épargne et de crédit engagée à améliorer l’inclusion financière et le bien-être économique de nos membres. Notre équipe de professionnels dévoués œuvre chaque jour pour offrir des services financiers fiables, accessibles et de qualité. Forts de notre expérience, nous proposons des solutions adaptées aux besoins réels de chaque membre, tout en contribuant au développement durable de la communauté.
+             Nous sommes une coopérative d’épargne et de crédit engagée à améliorer l’inclusion financière et le bien-être économique de nos membres. Notre équipe de professionnels dévoués œuvre chaque jour pour offrir des services financiers fiables, accessibles et de qualité. Forts de notre expérience, nous proposons des solutions adaptées aux besoins réels de chaque membre, tout en contribuant au développement durable de la communauté.
               </Text>
             </Box>
 
@@ -90,8 +90,7 @@ const AboutUsSection = () => {
                 Notre mission
               </Heading>
               <Text mb={4} fontSize="lg">
-                Notre mission est de renforcer les entreprises en leur fournissant des solutions innovantes qui simplifient leurs opérations et améliorent leur efficacité. Nous visons à être un partenaire fiable pour chaque client, les aidant à atteindre leurs objectifs et à réussir de manière durable.
-              </Text>
+               Notre mission est de collecter les épargnes de nos membres et de les gérer de manière sécurisée afin de financer leurs projets, soutenir leurs besoins financiers et favoriser leur développement économique. Nous nous engageons à offrir des services fiables, accessibles et adaptés, tout en promouvant la solidarité et l’autonomie financière au sein de notre communauté.
             </Box>
 
             {/* Carte Vision */}
@@ -107,7 +106,7 @@ const AboutUsSection = () => {
                 Notre vision
               </Heading>
               <Text mb={4} fontSize="lg">
-                Notre vision est de devenir un leader mondial dans notre secteur, en offrant des services exceptionnels qui favorisent le progrès et encouragent les relations à long terme. Nous nous efforçons d'être une entreprise reconnue pour son innovation, sa fiabilité et son engagement envers la satisfaction des clients.
+               Notre vision est de bâtir un futur sans pauvreté, où chaque membre de la COOPEC Microtous a accès à des services financiers fiables et adaptés pour améliorer sa vie. Nous aspirons à être une coopérative reconnue pour son innovation, sa solidarité et son engagement à soutenir la réussite économique de tous nos membres.
               </Text>
             </Box>
           </Grid>
