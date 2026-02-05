@@ -90,7 +90,7 @@ const AboutUsSection = () => {
                 Notre mission
               </Heading>
               <Text mb={4} fontSize="lg">
-               Notre mission est de collecter les épargnes de nos membres et de les gérer de manière sécurisée afin de financer leurs projets, soutenir leurs besoins financiers et favoriser leur développement économique. Nous nous engageons à offrir des services fiables, accessibles et adaptés, tout en promouvant la solidarité et l’autonomie financière au sein de notre communauté.
+               Notre mission est de collecter les épargnes de nos membres et de les gérer de manière sécurisée afin de financer leurs projets, soutenir leurs besoins financiers et favoriser leur développement économique. Nous nous engageons à offrir des services fiables, accessibles et adaptés, tout en promouvant la solidarité et l’autonomie financière au sein de notre communauté. 
             </Box>
 
             {/* Carte Vision */}
