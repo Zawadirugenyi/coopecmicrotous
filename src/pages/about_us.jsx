@@ -73,7 +73,7 @@ const AboutUsSection = () => {
                 Qui sommes-nous ?
               </Heading>
               <Text mb={4} fontSize="lg">
-                Nous sommes une entreprise leader avec pour mission de révolutionner l'industrie. Notre équipe de professionnels est dédiée à fournir des services de qualité à nos clients. Forts de plusieurs années d'expérience dans le domaine, nous nous efforçons d'apporter des solutions innovantes adaptées aux besoins uniques de chaque client.
+              Nous sommes une coopérative d’épargne et de crédit engagée à améliorer l’inclusion financière et le bien-être économique de nos membres. Notre équipe de professionnels dévoués œuvre chaque jour pour offrir des services financiers fiables, accessibles et de qualité. Forts de notre expérience, nous proposons des solutions adaptées aux besoins réels de chaque membre, tout en contribuant au développement durable de la communauté.
               </Text>
             </Box>
 
