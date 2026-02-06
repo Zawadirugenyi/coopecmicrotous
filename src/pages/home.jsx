@@ -905,15 +905,17 @@ const HomePage = () => {
           alignItems="center"
           mt={{ base: 8, md: 0 }} // Add margin-top for small screens
         >
-           <iframe
-      src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3988.3318402502914!2d30.238472!3d1.5640625!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x17642b5e630902fd%3A0x8b261e95f84ac109!2sH67R%2BJCF%2C%20Bunia!5e0!3m2!1sen!2scd!4v1736498502843!5m2!1sen!2scd"
-      width="100%" 
-      height="100%" 
-      style={{ border: 0 }}
-      allowFullScreen
-      loading="lazy"
-      referrerPolicy="no-referrer-when-downgrade"
-    ></iframe>
+    <iframe
+  src="https://www.google.com/maps/embed?..."
+  title="Localisation de la COOPEC Microtous"
+  width="100%"
+  height="450"
+  style={{ border: 0 }}
+  allowFullScreen=""
+  loading="lazy"
+  referrerPolicy="no-referrer-when-downgrade"
+/>
+
         
         </Box>
       </Flex>
