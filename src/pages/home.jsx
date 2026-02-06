@@ -905,16 +905,14 @@ const HomePage = () => {
           alignItems="center"
           mt={{ base: 8, md: 0 }} // Add margin-top for small screens
         >
-    <iframe
-  src="https://www.google.com/maps/embed?..."
-  title="Localisation de la COOPEC Microtous"
-  width="100%"
-  height="450"
-  style={{ border: 0 }}
-  allowFullScreen=""
-  loading="lazy"
-  referrerPolicy="no-referrer-when-downgrade"
-/>
+        <iframe
+          src="https://www.google.com/maps/embed?..."
+          width="100%"
+          height="450"
+          title="Office location map"
+          loading="lazy"
+          referrerPolicy="no-referrer-when-downgrade"
+        />
 
         
         </Box>
