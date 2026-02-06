@@ -18,8 +18,6 @@ import { Input, Textarea,  FormControl, FormLabel } from '@chakra-ui/react';
 //import contactImage from '../Components/Assetes/Equipe.jpeg'; 
 
 
-
-
 //const phoneNumber = '243820937002'; 
 
 const HomePage = () => {
@@ -268,11 +266,11 @@ const HomePage = () => {
           À propos de nous
         </Heading>
         <Text mb={4} fontSize="lg">
-          Nous sommes une entreprise de premier plan avec pour mission de révolutionner l'industrie. Notre équipe de professionnels est dédiée à fournir des services de qualité supérieure à nos clients. Forts de plusieurs années d'expérience dans le domaine, nous nous efforçons de proposer des solutions innovantes adaptées aux besoins uniques de chaque client. Notre entreprise est engagée dans l'excellence, et nous sommes fiers de notre approche centrée sur le client.
-        </Text>
+         À la COOPEC Microtous, nous sommes une coopérative d’épargne et de crédit engagée à améliorer la vie financière de nos membres. Notre équipe de professionnels dévoués œuvre chaque jour pour offrir des services fiables, accessibles et adaptés aux besoins de chacun. Forts de notre expérience et de notre expertise, nous proposons des solutions innovantes qui permettent à nos membres de sécuriser leurs finances, de réaliser leurs projets et de planifier un avenir stable.
+         </Text>
         <Text mb={4} fontSize="lg">
-          Notre équipe diversifiée comprend des experts de divers secteurs, garantissant ainsi que nous apportons les meilleures idées et stratégies. Nous comprenons les défis auxquels nos clients sont confrontés, et nous travaillons sans relâche pour leur fournir des solutions qui répondent non seulement à leurs besoins immédiats, mais aussi pour les positionner pour un succès à long terme. Que vous recherchiez une technologie de pointe ou un partenaire fiable pour votre entreprise, nous sommes là pour vous aider à atteindre vos objectifs.
-        </Text>
+         Notre équipe diversifiée réunit des experts en finance, gestion et développement communautaire, garantissant des conseils et des solutions de qualité. Nous comprenons les défis auxquels nos membres sont confrontés et nous travaillons sans relâche pour leur fournir un soutien financier sûr et durable. Que vous souhaitiez épargner, investir ou accéder à un crédit, la COOPEC Microtous est votre partenaire de confiance pour bâtir un avenir prospère.
+         </Text>
 
 
           {/* Learn More Button */}
@@ -671,7 +669,7 @@ const HomePage = () => {
       Questions fréquemment posées (FAQ)
     </Heading>
     <Text mb={4}>
-      Trouvez des réponses aux questions les plus courantes concernant nos services bancaires, comptes, prêts, et plus encore.
+      Trouvez des réponses aux questions les plus courantes concernant nos services , comptes, Crédits, et plus encore.
     </Text>
 
     {/* Accordion pour les FAQ bancaires */}
@@ -680,7 +678,7 @@ const HomePage = () => {
         <h2>
           <AccordionButton>
             <Box flex="1" textAlign="left">
-              Comment ouvrir un compte bancaire ?
+              Comment ouvrir un compte Epargne ?
             </Box>
             <AccordionIcon />
           </AccordionButton>
@@ -694,13 +692,13 @@ const HomePage = () => {
         <h2>
           <AccordionButton>
             <Box flex="1" textAlign="left">
-              Quels types de comptes bancaires proposez-vous ?
+              Quels types de comptes Epargnes proposez-vous ?
             </Box>
             <AccordionIcon />
           </AccordionButton>
         </h2>
         <AccordionPanel pb={4}>
-          Nous proposons différents types de comptes bancaires, y compris les comptes d'épargne, les comptes courants et les dépôts à terme. Chaque type de compte a ses propres avantages, et vous pouvez choisir celui qui correspond à vos besoins financiers.
+          Nous proposons différents types de comptes Epargnes, y compris les comptes Courant, les comptes Maisha et les dépôts à terme. Chaque type de compte a ses propres avantages, et vous pouvez choisir celui qui correspond à vos besoins financiers.
         </AccordionPanel>
       </AccordionItem>
 
