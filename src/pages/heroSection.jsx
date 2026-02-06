@@ -31,12 +31,16 @@ const HeroSection = () => {
     },
   ];
 
+ 
+
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
-    }, 5000); // Change slide every 5 seconds
-    return () => clearInterval(interval);
-  }, []);
+  const interval = setInterval(() => {
+    setCurrentIndex((prev) => (prev + 1) % images.length);
+  }, 4000);
+
+  return () => clearInterval(interval);
+}, [images.length]);
+
 
   return (
     <>

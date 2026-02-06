@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
-import { useTranslation } from 'react-i18next';
+//import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
 import axios from 'axios';
 import { Box, Button, Heading, Grid,Text,Card, CardBody ,Image,
@@ -15,16 +15,17 @@ import backgroundImage4 from '../Components/Assetes/1113.jpeg';
 import backgroundImage from '../Components/Assetes/home3.jpg'; 
 import home3 from '../Components/Assetes/home2.jpg'; 
 import { Input, Textarea,  FormControl, FormLabel } from '@chakra-ui/react';
-import contactImage from '../Components/Assetes/Equipe.jpeg'; 
+//import contactImage from '../Components/Assetes/Equipe.jpeg'; 
 
 
 
 
-const phoneNumber = '243820937002'; 
+//const phoneNumber = '243820937002'; 
+
 const HomePage = () => {
     const [services, setServices] = useState([]);
     const [error, setError] = useState('');
-    const { t } = useTranslation();
+   // const { } = useTranslation();
 
   useEffect(() => {
     const fetchServices = async () => {
@@ -904,63 +905,7 @@ const HomePage = () => {
           alignItems="center"
           mt={{ base: 8, md: 0 }} // Add margin-top for small screens
         >
-          <img
-            src={contactImage} 
-            alt="About Us"
-            style={{
-              width: '92%',
-              height: '60vh',
-              objectFit: 'cover',
-              borderRadius: '8px', // Add rounded corners like the text card
-            }}
-          />
-        </Box>
-      </Flex>
-    </Box>
-
-
-
-      {/* Footer or Other Sections */}
-    
-    <Flex 
-  id="map" 
-  p={8} 
-  bg="white" 
-  justifyContent="center" 
-  alignItems="center" 
-  minHeight="60vh"
-  flexDirection="column"
->
-  <Heading as="h2" size="xl" mb={4}>
-    Our Location
-  </Heading>
-
-  <Box 
-    position="relative" 
-    width={{ base: '100%', md: '80%' }} 
-    height="400px" 
-    border="2px solid teal" 
-    borderRadius="md" 
-    overflow="hidden"
-  >
-    {/* Clickable overlay */}
-    <a 
-      href="https://www.google.com/maps/place/H67R+JCF,+Bunia" 
-      target="_blank" 
-      rel="noopener noreferrer"
-      style={{ 
-        position: 'absolute', 
-        top: 0, 
-        left: 0, 
-        width: '100%', 
-        height: '100%', 
-        zIndex: 10, 
-        cursor: 'pointer' 
-      }}
-    ></a>
-
-    {/* Embedded Google Map */}
-    <iframe
+           <iframe
       src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3988.3318402502914!2d30.238472!3d1.5640625!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x17642b5e630902fd%3A0x8b261e95f84ac109!2sH67R%2BJCF%2C%20Bunia!5e0!3m2!1sen!2scd!4v1736498502843!5m2!1sen!2scd"
       width="100%" 
       height="100%" 
@@ -969,8 +914,14 @@ const HomePage = () => {
       loading="lazy"
       referrerPolicy="no-referrer-when-downgrade"
     ></iframe>
-  </Box>
-</Flex>
+        
+        </Box>
+      </Flex>
+    </Box>
+
+
+
+ 
 
 
 
