@@ -1,7 +1,7 @@
 import React from 'react';
 import { Flex, Box, Text, Icon, Link } from '@chakra-ui/react';
 import { FaFacebook, FaInstagram, FaLinkedin } from 'react-icons/fa';
-import { AiFillCloseCircle } from 'react-icons/ai'; // X icon for X.com
+
 
 function Footer() {
   return (

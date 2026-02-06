@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Grid, Heading, Text, Button } from '@chakra-ui/react';
+import { Box, Grid, Heading, Text} from '@chakra-ui/react';
 import heroImage from '../Components/Assetes/home2.jpg'; // Corrigé la faute de frappe dans 'Assetes'
 
 const AboutUsSection = () => {

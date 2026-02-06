@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Heading, Text, Accordion, AccordionItem, AccordionButton, AccordionPanel, AccordionIcon, Button, Flex } from '@chakra-ui/react';
+import { Box, Heading, Text, Accordion, AccordionItem, AccordionButton, AccordionPanel, AccordionIcon, Flex } from '@chakra-ui/react';
 import home3 from '../Components/Assetes/home3.jpg'; // Import the image
 import heroImage from '../Components/Assetes/home1.webp';
 

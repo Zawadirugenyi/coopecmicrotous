@@ -12,14 +12,10 @@ import backgroundImage2 from '../Components/Assetes/111.webp';
 import backgroundImage3 from '../Components/Assetes/home3.jpg';
 import aboutImage from '../Components/Assetes/Gerante1.jpeg'
 import backgroundImage4 from '../Components/Assetes/1113.jpeg';
-import { FaWhatsapp } from 'react-icons/fa'; 
 import backgroundImage from '../Components/Assetes/home3.jpg'; 
 import home3 from '../Components/Assetes/home2.jpg'; 
 import { Input, Textarea,  FormControl, FormLabel } from '@chakra-ui/react';
 import contactImage from '../Components/Assetes/Equipe.jpeg'; 
-
-
-
 
 
 
