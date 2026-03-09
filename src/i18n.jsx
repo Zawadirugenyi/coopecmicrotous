@@ -1,9 +1,11 @@
-import i18n from "i18next";
-import { initReactI18next } from "react-i18next";
-import LanguageDetector from "i18next-browser-languagedetector";
+// src/i18n.js
 
+import i18n from 'i18next';
+import { initReactI18next } from 'react-i18next';
+
+// Define resources for the supported languages
 const resources = {
-  en: {
+   en: {
     translation: {
       welcome: "Welcome",
       login: "Login",
@@ -24,17 +26,23 @@ const resources = {
       home: "Nyumbani"
     }
   }
+
 };
 
 i18n
-  .use(LanguageDetector)
-  .use(initReactI18next)
+
+  .use(initReactI18next)  // Connects i18n with React
   .init({
     resources,
-    fallbackLng: "en",
+    lng: 'en',  // Default language
+    fallbackLng: 'en',  // Fallback language if key is missing
     interpolation: {
-      escapeValue: false
-    }
+      escapeValue: false,  // React already handles escaping
+    },
+    react: {
+      useSuspense: false,  // Disabling Suspense for immediate translations
+    },
   });
 
 export default i18n;
+
