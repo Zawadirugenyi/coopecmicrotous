@@ -1,36 +1,40 @@
-// src/i18n.js
+import i18n from "i18next";
+import { initReactI18next } from "react-i18next";
+import LanguageDetector from "i18next-browser-languagedetector";
 
-import i18n from 'i18next';
-import { initReactI18next } from 'react-i18next';
-
-// Define resources for the supported languages
 const resources = {
   en: {
     translation: {
-      welcome: 'Welcome',
-      hello: 'Hello, how are you?',
-    },
+      welcome: "Welcome",
+      login: "Login",
+      home: "Home"
+    }
   },
   fr: {
     translation: {
-      welcome: 'Bienvenue',
-      hello: 'Bonjour, comment ça va?',
-    },
+      welcome: "Bienvenue",
+      login: "Connexion",
+      home: "Accueil"
+    }
   },
+  sw: {
+    translation: {
+      welcome: "Karibu",
+      login: "Ingia",
+      home: "Nyumbani"
+    }
+  }
 };
 
 i18n
-  .use(initReactI18next)  // Connects i18n with React
+  .use(LanguageDetector)
+  .use(initReactI18next)
   .init({
     resources,
-    lng: 'en',  // Default language
-    fallbackLng: 'en',  // Fallback language if key is missing
+    fallbackLng: "en",
     interpolation: {
-      escapeValue: false,  // React already handles escaping
-    },
-    react: {
-      useSuspense: false,  // Disabling Suspense for immediate translations
-    },
+      escapeValue: false
+    }
   });
 
 export default i18n;
