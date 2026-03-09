@@ -673,93 +673,93 @@ const HomePage = () => {
     </Text>
 
     {/* Accordion pour les FAQ bancaires */}
-    <Accordion allowToggle>
-      <AccordionItem>
-        <h2>
-          <AccordionButton>
-            <Box flex="1" textAlign="left">
-              Comment ouvrir un compte Epargne ?
-            </Box>
-            <AccordionIcon />
-          </AccordionButton>
-        </h2>
-        <AccordionPanel pb={4}>
-          Vous pouvez ouvrir un compte bancaire en ligne via notre site Web ou en visitant l'une de nos agences. Vous aurez besoin d'une pièce d'identité valide, d'une preuve de domicile et d'un dépôt initial.
-        </AccordionPanel>
-      </AccordionItem>
+  <Accordion allowToggle>
+            <AccordionItem>
+              <h2>
+                <AccordionButton>
+                  <Box flex="1" textAlign="left">
+                    Comment ouvrir un compte Epagne ?
+                  </Box>
+                  <AccordionIcon />
+                </AccordionButton>
+              </h2>
+              <AccordionPanel pb={4}>
+                L'ouverture de compte est à $ 5.00 si c'est Courant $ 10.00 Maisha et $ 3.00 Epargne a la Carte; les documents à présenter sont: Photo passeport, et une copie de pièce d'identité
+              </AccordionPanel>
+            </AccordionItem>
 
-      <AccordionItem>
-        <h2>
-          <AccordionButton>
-            <Box flex="1" textAlign="left">
-              Quels types de comptes Epargnes proposez-vous ?
-            </Box>
-            <AccordionIcon />
-          </AccordionButton>
-        </h2>
-        <AccordionPanel pb={4}>
-          Nous proposons différents types de comptes Epargnes, y compris les comptes Courant, les comptes Maisha et les dépôts à terme. Chaque type de compte a ses propres avantages, et vous pouvez choisir celui qui correspond à vos besoins financiers.
-        </AccordionPanel>
-      </AccordionItem>
+            <AccordionItem>
+              <h2>
+                <AccordionButton>
+                  <Box flex="1" textAlign="left">
+                    Quels types de comptes Epargne proposez-vous ?
+                  </Box>
+                  <AccordionIcon />
+                </AccordionButton>
+              </h2>
+              <AccordionPanel pb={4}>
+               Epargne Courant, Epargne Maisha et Epargne à la Carte 
+                </AccordionPanel>
+            </AccordionItem>
 
-      <AccordionItem>
-        <h2>
-          <AccordionButton>
-            <Box flex="1" textAlign="left">
-              Comment puis-je demander un prêt ?
-            </Box>
-            <AccordionIcon />
-          </AccordionButton>
-        </h2>
-        <AccordionPanel pb={4}>
-          Vous pouvez demander un prêt en visitant notre agence ou en remplissant un formulaire de demande en ligne. Selon le type de prêt, nous pourrions demander une preuve de revenu et un historique de crédit.
-        </AccordionPanel>
-      </AccordionItem>
+            <AccordionItem>
+              <h2>
+                <AccordionButton>
+                  <Box flex="1" textAlign="left">
+                    Comment puis-je demander un Credit ?
+                  </Box>
+                  <AccordionIcon />
+                </AccordionButton>
+              </h2>
+              <AccordionPanel pb={4}>
+                Passez à La réception et remplissez fiche de demande de crédit, moyant le frais d'Etude de Dossier qui est le 1% du montant demandé
+              </AccordionPanel>
+            </AccordionItem>
 
-      <AccordionItem>
-        <h2>
-          <AccordionButton>
-            <Box flex="1" textAlign="left">
-              Comment réinitialiser mon mot de passe pour la banque en ligne ?
-            </Box>
-            <AccordionIcon />
-          </AccordionButton>
-        </h2>
-        <AccordionPanel pb={4}>
-          Pour réinitialiser votre mot de passe de la banque en ligne, cliquez sur le lien "Mot de passe oublié" sur la page de connexion. Vous recevrez un e-mail avec des instructions pour réinitialiser votre mot de passe.
-        </AccordionPanel>
-      </AccordionItem>
+            <AccordionItem>
+              <h2>
+                <AccordionButton>
+                  <Box flex="1" textAlign="left">
+                    Quels types de Crédit proposez-vous ?
+                  </Box>
+                  <AccordionIcon />
+                </AccordionButton>
+              </h2>
+              <AccordionPanel pb={4}>
+               Crédit Mushahara, Crédit Twekambe et Crédit Nibuthe 
+                </AccordionPanel>
+            </AccordionItem>
 
-      <AccordionItem>
-        <h2>
-          <AccordionButton>
-            <Box flex="1" textAlign="left">
-              Quel est le taux d'intérêt des comptes d'épargne ?
-            </Box>
-            <AccordionIcon />
-          </AccordionButton>
-        </h2>
-        <AccordionPanel pb={4}>
-          Nos comptes d'épargne offrent des taux d'intérêt compétitifs qui varient en fonction du type de compte et du solde. Veuillez consulter notre page des taux d'intérêt pour obtenir les informations les plus récentes.
-        </AccordionPanel>
-      </AccordionItem>
+            <AccordionItem>
+              <h2>
+                <AccordionButton>
+                  <Box flex="1" textAlign="left">
+                    Quel est le taux d'intérêt des comptes d'épargne Bloqués?
+                  </Box>
+                  <AccordionIcon />
+                </AccordionButton>
+              </h2>
+              <AccordionPanel pb={4}>
+                Le taux d'intérêt pour l'epargne bloqué est de 2% mensuel.
+              </AccordionPanel>
+            </AccordionItem> 
 
-      <AccordionItem>
-        <h2>
-          <AccordionButton>
-            <Box flex="1" textAlign="left">
-              Puis-je accéder à mon compte depuis n'importe où dans le monde ?
-            </Box>
-            <AccordionIcon />
-          </AccordionButton>
-        </h2>
-        <AccordionPanel pb={4}>
-          Oui, vous pouvez accéder à votre compte depuis n'importe où dans le monde en utilisant notre plateforme de banque en ligne. Connectez-vous simplement avec vos identifiants et vous pourrez gérer votre compte depuis n'importe quel appareil avec une connexion Internet.
-        </AccordionPanel>
-      </AccordionItem>
+            <AccordionItem>
+              <h2>
+                <AccordionButton>
+                  <Box flex="1" textAlign="left">
+                    Puis-je accéder à mon compte depuis n'importe où dans le monde ?
+                  </Box>
+                  <AccordionIcon />
+                </AccordionButton>
+              </h2>
+              <AccordionPanel pb={4}>
+                No, pour le moment c'est seulement à la RDC 
+                </AccordionPanel>
+            </AccordionItem>
 
-      {/* Ajouter plus de AccordionItems si nécessaire */}
-    </Accordion>
+            {/* Add more AccordionItems as needed */}
+          </Accordion>
 
     {/* Bouton Lire plus */}
   </Box>
