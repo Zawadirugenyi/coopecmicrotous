@@ -1,5 +1,3 @@
-// src/components/LanguageSelector.js
-
 import React from "react";
 import { useTranslation } from "react-i18next";
 import {
@@ -20,36 +18,31 @@ const LanguageSelector = () => {
   };
 
   return (
-    <Box
-      position="fixed"
-      bottom="120px"
-      right="20px"
-      zIndex="999"
-    >
+    <Box position="fixed" bottom="100px" right="20px" zIndex="999">
       <Menu>
         <MenuButton
           as={IconButton}
           icon={<FaGlobe />}
-          aria-label="Change language"
+          aria-label="Language"
           size="lg"
           bg="#2a8fc1"
           color="white"
           borderRadius="full"
           boxShadow="lg"
-          _hover={{ bg: "#1f6f9a", color: "#f7e135" }}
+          _hover={{ bg: "#1f6f9a" }}
         />
 
         <MenuList>
           <MenuItem onClick={() => changeLanguage("en")}>
-            English
+            🇬🇧 English
           </MenuItem>
 
           <MenuItem onClick={() => changeLanguage("fr")}>
-            Français
+            🇫🇷 Français
           </MenuItem>
 
           <MenuItem onClick={() => changeLanguage("sw")}>
-            Kiswahili
+            🇹🇿 Kiswahili
           </MenuItem>
         </MenuList>
       </Menu>
