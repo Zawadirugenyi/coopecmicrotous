@@ -18,7 +18,7 @@ const LanguageSelector = () => {
   };
 
   return (
-    <Box position="fixed" bottom="150px" right="20px" zIndex="999">
+    <Box position="fixed" bottom="110px" right="20px" zIndex="999">
       <Menu>
         <MenuButton
           as={IconButton}
