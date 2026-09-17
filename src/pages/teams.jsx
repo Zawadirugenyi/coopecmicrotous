@@ -1,119 +1,54 @@
-import React, { useState, useEffect } from 'react';
-import { Box, Heading, Text, Flex, Image, SimpleGrid } from '@chakra-ui/react';
-import home3 from '../Components/Assetes/home3.jpg'; // Import the background image
-import heroImage from '../Components/Assetes/home1.webp';
+import React from 'react';
+import { useTranslation } from 'react-i18next';
+import { Box, Container, Heading, Text, SimpleGrid, Flex, Image } from '@chakra-ui/react';
+import PageHero from '../Components/PageHero';
+import { teamMembersData, localize } from '../data';
+import teamLogo from '../Components/Assetes/photo_5992532938148922968_x__1_-removebg-preview.png';
+import aboutImage from '../Components/Assetes/Gerante1.jpeg';
 
 const TeamSection = () => {
-  const [teamMembers, setTeamMembers] = useState([]); // State to hold fetched data
-
-  useEffect(() => {
-    // Fetch team members data
-    const fetchTeamMembers = async () => {
-      try {
-        const response = await fetch('https://microtousadmin.onrender.com/api/team_members/');
-        const data = await response.json();
-        setTeamMembers(data); // Set the fetched data to the state
-      } catch (error) {
-        console.error('Error fetching team members:', error);
-      }
-    };
-
-    fetchTeamMembers(); // Fetch data when the component mounts
-  }, []);
+  const { t, i18n } = useTranslation();
+  const teamMembers = teamMembersData.map((m) => localize(m, i18n.language));
+  const memberImages = { 'Nadine Karungi': aboutImage };
 
   return (
-    <Box>
-      {/* Hero Section */}
-      <Box
-        w="100vw"
-        h="40vh"
-        bgImage={`url(${heroImage})`}
-        bgSize="cover"
-        bgPosition="center"
-        bgRepeat="no-repeat"
-        display="flex"
-        alignItems="center"
-        justifyContent="center"
-        position="relative"
-        m={0}
-        p={0}
-      >
-        <Box
-          position="absolute"
-          top="0"
-          left="0"
-          w="100%"
-          h="100%"
-          bg="rgba(0, 0, 0, 0.6)" // Dark overlay for better text readability
-        />
-        <Box zIndex="1" textAlign="center" color="white" p={8}>
-          <Heading as="h1" size="2xl" mb={4}>
-            Teams
-          </Heading>
-        </Box>
-      </Box>
-
-      {/* Team Section */}
-      <Flex
-        direction="column"
-        alignItems="center"
-        justifyContent="center"
-        minHeight="80vh" // Adjust height to fit content
-        bgImage={`url(${home3})`} // Background image
-        bgSize="cover" // Ensure the image covers the section
-        bgPosition="center" // Center the image
-        p={4}
-        backgroundBlendMode="overlay" // Overlay effect to darken the image
-        backgroundColor="rgba(0, 0, 0, 0.5)" // Darken the background for better text contrast
-      >
-        <Box
-          bg="white"
-          borderRadius="md"
-          boxShadow="lg"
-          p={8}
-          width={{ base: '100%', md: '95%', lg: '100%' }} // Adjust width based on screen size
-          textAlign="center" // Center text horizontally
-        >
-    <Heading as="h2" size="xl" mb={4}>
-        Notre Équipe
-      </Heading>
-      <Text mb={4}>
-        Rencontrez les esprits brillants derrière notre succès. Notre équipe est la colonne vertébrale de notre entreprise.
-      </Text>
-
-
-
-          {/* Render the team members */}
-          <SimpleGrid columns={{ base: 1, sm: 2, md: 3, lg: 5 }} spacing={8} mt={8}>
+    <Box pb={16}>
+      <PageHero title={t('teams.heroTitle')} subtitle={t('teams.subtitle')} />
+      <Box as="section" py={{ base: 14, md: 20 }} bg="surface.muted">
+        <Container maxW="7xl">
+          <Box maxW="700px" mx="auto" textAlign="center" mb={12}>
+            <Heading as="h2" size="xl">
+              {t('teams.title')}
+            </Heading>
+            <Box w="56px" h="5px" bg="brand.500" borderRadius="full" mx="auto" mt={4} />
+          </Box>
+          <SimpleGrid columns={{ base: 2, md: 3, lg: 4 }} spacing={8}>
             {teamMembers.map((member) => (
-              <Box
-                key={member.id}
-                bg="white"
-                p={6}
-                borderRadius="md"
-                boxShadow="lg"
-                textAlign="center"
-              >
-                {/* Display team member's photo */}
-                <Image
-                  src={member.image} // Team member photo
+              <Box key={member.id} textAlign="center">
+                <Flex
+                  w={{ base: '90px', md: '120px' }}
+                  h={{ base: '90px', md: '120px' }}
+                  mx="auto"
                   borderRadius="full"
-                  boxSize={{ base: '100px', md: '120px' }} // Make image size responsive
-                  objectFit="cover"
-                  mb={4}
-                  mx="auto" // Center the image horizontally
-                />
-                <Heading as="h3" size="md" mb={2}>
+                  overflow="hidden"
+                  bg="white"
+                  boxShadow="lg"
+                  border="4px solid"
+                  borderColor="accent.400"
+                >
+                  <Image src={memberImages[member.name] || teamLogo} alt={member.name} objectFit="cover" w="100%" h="100%" />
+                </Flex>
+                <Heading as="h3" size="sm" mt={4} mb={1}>
                   {member.name}
                 </Heading>
-                <Text fontSize="sm" color="gray.500">
+                <Text fontSize="sm" color="text.muted">
                   {member.role}
                 </Text>
               </Box>
             ))}
           </SimpleGrid>
-        </Box>
-      </Flex>
+        </Container>
+      </Box>
     </Box>
   );
 };

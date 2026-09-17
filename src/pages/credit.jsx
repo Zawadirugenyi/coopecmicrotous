@@ -1,109 +1,214 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { Box, Grid, Heading, Text, Card, CardBody, Spinner } from '@chakra-ui/react';
-import backgroundImage from '../Components/Assetes/home3.jpg'; // Path to your services background image
-import heroImage from '../Components/Assetes/home1.webp'; // Path to your hero section image
+import React from 'react';
+import { useTranslation } from 'react-i18next';
+import { Box, Container, Heading, Text, SimpleGrid, Stack, Flex, Icon, Button } from '@chakra-ui/react';
+import { FaUsers, FaBolt, FaFileInvoiceDollar, FaCheckCircle, FaHandshake, FaFileSignature } from 'react-icons/fa';
+import PageHero from '../Components/PageHero';
+import { creditData, localize, pick } from '../data';
+
+const creditIcons = [FaUsers, FaBolt, FaFileInvoiceDollar];
 
 const CreditSection = () => {
-  const [credit, setcredit] = useState([]);
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(true); // Loading state
+  const { t, i18n } = useTranslation();
+  const credit = creditData.map((c) => localize(c, i18n.language));
 
-  useEffect(() => {
-    const fetchSubservices = async () => {
-      try {
-        const response = await axios.get('https://microtousadmin.onrender.com/api/credit/');
-        setcredit(response.data);
-        setError('');
-      } catch (err) {
-        console.error('Error fetching services:', err);
-        setError('Failed to fetch services. Please try again.');
-      } finally {
-        setLoading(false); // Set loading to false after data is fetched
-      }
-    };
-
-    fetchSubservices();
-  }, []);
+  const specs = (item) => [
+    { label: t('credit.labelTaux'), value: item.taux },
+    { label: t('credit.labelRemboursement'), value: item.remboursement },
+    { label: t('credit.labelEcheance'), value: item.echeance },
+    { label: t('credit.labelGarantie'), value: item.garantieFinanciere },
+  ];
 
   return (
-    <>
-      {/* Hero Section */}
-      <Box
-        w="100vw"
-        h="40vh"
-        bgImage={`url(${heroImage})`}
-        bgSize="cover"
-        bgPosition="center"
-        bgRepeat="no-repeat"
-        display="flex"
-        alignItems="center"
-        justifyContent="center"
-        position="relative"
-        m={0}
-        p={0}
-      >
-        <Box
-          position="absolute"
-          top="0"
-          left="0"
-          w="100%"
-          h="100%"
-          bg="rgba(0, 0, 0, 0.6)" // Dark overlay for better text readability
-        />
-        <Box zIndex="1" textAlign="center" color="white" p={8}>
-          <Heading as="h1" size="2xl" mb={4}>
-            Credit
-          </Heading>
-        </Box>
-      </Box>
+    <Box pb={16}>
+      <PageHero title={t('credit.heroTitle')} subtitle={t('credit.subtitle')} />
+      <Box as="section" py={{ base: 14, md: 20 }} bg="surface.muted">
+        <Container maxW="7xl">
+          <Box maxW="760px" mx="auto" textAlign="center" mb={12}>
+            <Heading as="h2" size="xl">
+              {t('credit.title')}
+            </Heading>
+            <Box w="56px" h="5px" bgGradient="linear(to-r, brand.500, accent.400)" borderRadius="full" mx="auto" mt={4} />
+          </Box>
 
-      {/* Services Section */}
-      <Box
-        id="services"
-        p={8}
-        bgImage={`url(${backgroundImage})`}
-        bgSize="cover"
-        bgPos="center"
-        color="white"
-      >
-        <Heading as="h2" size="xl" mb={6} textAlign="center">
-          Les Crédits que nous offrons
-        </Heading>
-        {error && <Text color="red.500" mb={4}>{error}</Text>}
-        
-        {/* Loading Spinner */}
-        {loading ? (
-          <Box textAlign="center">
-            <Spinner size="xl" color="yellow.400" />
-          </Box>
-        ) : (
-          <Box
+          <Flex
+            align="center"
+            gridGap={4}
+            bg="brand.50"
+            border="1px solid"
+            borderColor="brand.100"
+            borderRadius="2xl"
             p={6}
-            bg="rgba(0, 0, 0, 0.6)"
-            borderRadius="lg"
-            boxShadow="lg"
-            maxW="1300px"
-            mx="auto"
+            mb={12}
           >
-            <Grid templateColumns={{ base: '1fr', md: '1fr 1fr 1fr' }} gap={6}>
-              {credit.map((credit, index) => (
-                <Card key={index} bg="white" color="black" boxShadow="md" borderRadius="md">
-                  <CardBody>
-                    <Heading as="h3" size="md" mb={4}>
-                      {credit.name}
-                    </Heading>
-                    <Text mb={4}>{credit.condition}</Text>
-                    <Text mb={4}>{credit.taux}</Text>
-                    <Text mb={4}>{credit.frequence}</Text>
-                  </CardBody>
-                </Card>
-              ))}
-            </Grid>
-          </Box>
-        )}
+            <Flex
+              w="48px"
+              h="48px"
+              borderRadius="2xl"
+              bgGradient="linear(to-br, brand.500, brand.700)"
+              color="white"
+              align="center"
+              justify="center"
+              flexShrink={0}
+              border="2px solid"
+              borderColor="accent.400"
+            >
+              <Icon as={FaHandshake} boxSize={5} />
+            </Flex>
+            <Text color="brand.800" fontSize="sm">
+              {t('credit.membershipNote')}
+            </Text>
+          </Flex>
+
+          <SimpleGrid columns={{ base: 1, md: 3 }} spacing={8}>
+            {credit.map((item, index) => {
+              const IconComp = creditIcons[index % creditIcons.length];
+              return (
+                <Box
+                  key={item.id}
+                  bg="surface.base"
+                  borderRadius="2xl"
+                  overflow="hidden"
+                  border="1px solid"
+                  borderColor="border.subtle"
+                  boxShadow="sm"
+                  display="flex"
+                  flexDirection="column"
+                  transition="transform 0.25s ease, boxShadow 0.25s ease"
+                  _hover={{ transform: 'translateY(-8px)', boxShadow: 'xl' }}
+                >
+                  <Box h="6px" bgGradient="linear(to-r, brand.500, brand.700, accent.400)" />
+                  <Box p={8} display="flex" flexDirection="column" flex="1">
+                    <Flex align="center" gridGap={4} mb={6}>
+                      <Flex
+                        w="60px"
+                        h="60px"
+                        borderRadius="2xl"
+                        bgGradient="linear(to-br, brand.500, brand.700)"
+                        color="white"
+                        align="center"
+                        justify="center"
+                        boxShadow="md"
+                        border="2px solid"
+                        borderColor="accent.400"
+                        flexShrink={0}
+                      >
+                        <Icon as={IconComp} boxSize={6} />
+                      </Flex>
+                      <Heading as="h3" size="md">
+                        {item.name}
+                      </Heading>
+                    </Flex>
+                    <Text color="text.muted" fontSize="sm" mb={6}>
+                      {item.description}
+                    </Text>
+                    <Box borderTop="1px solid" borderColor="border.subtle" pt={5}>
+                      <Stack spacing={3}>
+                        {specs(item).map((spec, i) => (
+                          <Flex key={i} align="baseline" justify="space-between" gridGap={4}>
+                            <Text
+                              fontSize="xs"
+                              fontWeight="700"
+                              color="brand.600"
+                              textTransform="uppercase"
+                              letterSpacing="wide"
+                              flexShrink={0}
+                            >
+                              {spec.label}
+                            </Text>
+                            <Text fontSize="sm" color="text.soft" textAlign="right">
+                              {spec.value}
+                            </Text>
+                          </Flex>
+                        ))}
+                      </Stack>
+                    </Box>
+                    <Box mt={6} bg="surface.muted" borderRadius="lg" p={4} flex="1">
+                      <Text fontSize="xs" fontWeight="700" color="brand.600" textTransform="uppercase" letterSpacing="wide" mb={3}>
+                        {t('credit.conditionLabel')}
+                      </Text>
+                      {item.conditions && item.conditions.length > 0 ? (
+                        <Stack spacing={2}>
+                          {item.conditions.map((condition, i) => (
+                            <Flex key={i} align="flex-start" gridGap={2}>
+                              <Icon as={FaCheckCircle} color="accent.400" mt={0.5} flexShrink={0} />
+                              <Text fontSize="sm" color="text.soft">
+                                {pick(condition, i18n.language)}
+                              </Text>
+                            </Flex>
+                          ))}
+                        </Stack>
+                      ) : (
+                        <Text fontSize="sm" color="text.muted">
+                          —
+                        </Text>
+                      )}
+                    </Box>
+                  </Box>
+                </Box>
+              );
+            })}
+          </SimpleGrid>
+
+          <Flex
+            direction={{ base: 'column', md: 'row' }}
+            align="center"
+            justify="space-between"
+            gridGap={8}
+            mt={14}
+            bgGradient="linear(to-r, brand.800, brand.600)"
+            borderRadius="2xl"
+            p={{ base: 8, md: 12 }}
+            color="white"
+            boxShadow="lg"
+          >
+            <Box flex="1">
+              <Flex align="center" gridGap={3} mb={4}>
+                <Flex
+                  w="44px"
+                  h="44px"
+                  borderRadius="2xl"
+                  bg="whiteAlpha.200"
+                  align="center"
+                  justify="center"
+                >
+                  <Icon as={FaFileSignature} boxSize={5} />
+                </Flex>
+                <Heading as="h3" size="md">
+                  {t('credit.feesTitle')}
+                </Heading>
+              </Flex>
+              <Stack spacing={2.5}>
+                {[
+                  t('credit.feeDossier'),
+                  t('credit.feeDecaissement'),
+                  t('credit.feeAssurance'),
+                  t('credit.feeCarnet'),
+                ].map((fee, i) => (
+                  <Flex key={i} align="flex-start" gridGap={3}>
+                    <Icon as={FaCheckCircle} color="white" mt={1} flexShrink={0} />
+                    <Text color="whiteAlpha.900" fontSize="sm">
+                      {fee}
+                    </Text>
+                  </Flex>
+                ))}
+              </Stack>
+            </Box>
+            <Button
+              as="a"
+              href="mailto:info@microtous.com,support@microtous.com?subject=Credit%20Application"
+              size="lg"
+              colorScheme="accent"
+              color="brand.900"
+              px={10}
+              flexShrink={0}
+              _hover={{ bg: 'accent.300' }}
+            >
+              {t('credit.applyCta')}
+            </Button>
+          </Flex>
+        </Container>
       </Box>
-    </>
+    </Box>
   );
 };
 

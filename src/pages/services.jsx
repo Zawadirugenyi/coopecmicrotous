@@ -1,108 +1,129 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { Box, Grid, Heading, Text, Button, Card, CardBody } from '@chakra-ui/react';
-import backgroundImage from '../Components/Assetes/home3.jpg'; // Path to your services background image
-import heroImage from '../Components/Assetes/home1.webp'; // Path to your hero section image
+import React from 'react';
+import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
+import { Box, Container, Heading, Text, Button, SimpleGrid, Flex, Icon } from '@chakra-ui/react';
+import { ChevronRightIcon } from '@chakra-ui/icons';
+import { FaPiggyBank, FaCoins, FaComments, FaUsers, FaArrowRight } from 'react-icons/fa';
+import PageHero from '../Components/PageHero';
+import { servicesData, localize } from '../data';
+
+const serviceIcons = [FaPiggyBank, FaCoins, FaComments, FaUsers];
+
+const serviceLinks = {
+  1: '/epargne',
+  2: '/credit',
+  3: '/contact_us',
+  4: '/about_us',
+};
 
 const ServicesSection = () => {
-  const [services, setServices] = useState([]);
-  const [error, setError] = useState('');
-
-  useEffect(() => {
-    const fetchServices = async () => {
-      try {
-        const response = await axios.get('https://microtousadmin.onrender.com/api/services/');
-        setServices(response.data);
-        setError('');
-      } catch (err) {
-        console.error('Error fetching services:', err);
-        setError('Failed to fetch services. Please try again.');
-      }
-    };
-
-    fetchServices();
-  }, []);
+  const { t, i18n } = useTranslation();
+  const navigate = useNavigate();
+  const services = servicesData.map((s) => localize(s, i18n.language));
 
   return (
-    <>
-      {/* Hero Section */}
-      <Box
-        w="100vw"
-        h="40vh"
-        bgImage={`url(${heroImage})`}
-        bgSize="cover"
-        bgPosition="center"
-        bgRepeat="no-repeat"
-        display="flex"
-        alignItems="center"
-        justifyContent="center"
-        position="relative"
-        m={0}
-        p={0}
-      >
-        <Box
-          position="absolute"
-          top="0"
-          left="0"
-          w="100%"
-          h="100%"
-          bg="rgba(0, 0, 0, 0.6)" // Dark overlay for better text readability
-        />
-        <Box zIndex="1" textAlign="center" color="white" p={8}>
-          <Heading as="h1" size="2xl" mb={4}>
-           Our Services
-          </Heading>
-    
-        </Box>
-      </Box>
+    <Box pb={16}>
+      <PageHero title={t('services.heroTitle')} subtitle={t('services.subtitle')} />
+      <Box as="section" py={{ base: 14, md: 20 }} bg="surface.muted">
+        <Container maxW="7xl">
+          <Box maxW="700px" mx="auto" textAlign="center" mb={12}>
+            <Heading as="h2" size="xl">
+              {t('services.title')}
+            </Heading>
+            <Box w="56px" h="5px" bgGradient="linear(to-r, brand.500, accent.400)" borderRadius="full" mx="auto" mt={4} />
+          </Box>
+          <SimpleGrid columns={{ base: 1, md: 2, lg: 4 }} spacing={8}>
+            {services.map((service, index) => {
+              const IconComp = serviceIcons[index % serviceIcons.length];
+              const to = serviceLinks[service.id] || '/services';
+              return (
+                <Box
+                  key={service.id}
+                  bg="surface.base"
+                  borderRadius="2xl"
+                  overflow="hidden"
+                  border="1px solid"
+                  borderColor="border.subtle"
+                  boxShadow="sm"
+                  display="flex"
+                  flexDirection="column"
+                  transition="transform 0.25s ease, boxShadow 0.25s ease"
+                  _hover={{ transform: 'translateY(-8px)', boxShadow: 'xl' }}
+                >
+                  <Box h="6px" bgGradient="linear(to-r, brand.500, brand.700, accent.400)" />
+                  <Box p={8} display="flex" flexDirection="column" flex="1">
+                    <Flex
+                      w="60px"
+                      h="60px"
+                      borderRadius="2xl"
+                      bgGradient="linear(to-br, brand.500, brand.700)"
+                      color="white"
+                      align="center"
+                      justify="center"
+                      mb={6}
+                      boxShadow="md"
+                      border="2px solid"
+                      borderColor="accent.400"
+                    >
+                      <Icon as={IconComp} boxSize={6} />
+                    </Flex>
+                    <Heading as="h3" size="md" mb={3}>
+                      {service.name}
+                    </Heading>
+                    <Text color="text.muted" fontSize="sm" mb={6} flex="1">
+                      {service.description}
+                    </Text>
+                    <Button
+                      size="sm"
+                      variant="link"
+                      colorScheme="brand"
+                      alignSelf="flex-start"
+                      rightIcon={<FaArrowRight />}
+                      onClick={() => navigate(to)}
+                    >
+                      {t('services.more')}
+                    </Button>
+                  </Box>
+                </Box>
+              );
+            })}
+          </SimpleGrid>
 
-      {/* Services Section */}
-      <Box
-        id="services"
-        p={8}
-        bgImage={`url(${backgroundImage})`}
-        bgSize="cover"
-        bgPos="center"
-        color="white"
-      >
-        <Heading as="h2" size="xl" mb={6} textAlign="center">
-          What We offer
-        </Heading>
-        {error && <Text color="red.500" mb={4}>{error}</Text>}
-        <Box
-          p={6}
-          bg="rgba(0, 0, 0, 0.6)"
-          borderRadius="lg"
-          boxShadow="lg"
-          maxW="1300px"
-          mx="auto"
-        >
-          <Grid templateColumns={{ base: '1fr', md: '1fr 1fr 1fr' }} gap={6}>
-            {services.map((service, index) => (
-              <Card key={index} bg="white" color="black" boxShadow="md" borderRadius="md">
-                <CardBody>
-                  <Heading as="h3" size="md" mb={4}>
-                    {service.name}
-                  </Heading>
-                  <Text mb={4}>{service.description}</Text>
-                  <Button
-                    color="#2a8fc1"
-                    size="lg"
-                    _hover={{ bg: 'yellow.200' }}
-                    px={8}
-                    as="a"
-                    href="epargne"
-                    mt="10px"
-                  >
-                    En savoir plus
-                  </Button>
-                </CardBody>
-              </Card>
-            ))}
-          </Grid>
-        </Box>
+          <Flex
+            mt={14}
+            direction={{ base: 'column', md: 'row' }}
+            align="center"
+            justify="space-between"
+            gridGap={6}
+            bgGradient="linear(to-r, brand.800, brand.600)"
+            borderRadius="2xl"
+            p={{ base: 8, md: 12 }}
+            color="white"
+            boxShadow="lg"
+          >
+            <Box>
+              <Heading as="h3" size="lg" mb={2}>
+                {t('services.ctaTitle')}
+              </Heading>
+              <Text color="whiteAlpha.800" maxW="560px">
+                {t('services.ctaText')}
+              </Text>
+            </Box>
+            <Button
+              size="lg"
+              colorScheme="accent"
+              color="brand.900"
+              px={10}
+              rightIcon={<ChevronRightIcon />}
+              _hover={{ bg: 'accent.300' }}
+              onClick={() => navigate('/epargne')}
+            >
+              {t('services.ctaBtn')}
+            </Button>
+          </Flex>
+        </Container>
       </Box>
-    </>
+    </Box>
   );
 };
 

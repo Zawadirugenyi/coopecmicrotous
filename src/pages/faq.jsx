@@ -1,164 +1,48 @@
 import React from 'react';
-import { Box, Heading, Text, Accordion, AccordionItem, AccordionButton, AccordionPanel, AccordionIcon, Flex } from '@chakra-ui/react';
-import home3 from '../Components/Assetes/home3.jpg'; // Import the image
-import heroImage from '../Components/Assetes/home1.webp';
+import { useTranslation } from 'react-i18next';
+import { Box, Container, Heading, Accordion, AccordionItem, AccordionButton, AccordionPanel, AccordionIcon } from '@chakra-ui/react';
+import PageHero from '../Components/PageHero';
 
 const FAQSection = () => {
+  const { t } = useTranslation();
+
   return (
-    <Box>
-      
-      {/* Hero Section */}
-      <Box
-        w="100vw"
-        h="40vh"
-        bgImage={`url(${heroImage})`}
-        bgSize="cover"
-        bgPosition="center"
-        bgRepeat="no-repeat"
-        display="flex"
-        alignItems="center"
-        justifyContent="center"
-        position="relative"
-        m={0}
-        p={0}
-      >
-        <Box
-          position="absolute"
-          top="0"
-          left="0"
-          w="100%"
-          h="100%"
-          bg="rgba(0, 0, 0, 0.6)" // Dark overlay for better text readability
-        />
-        <Box zIndex="1" textAlign="center" color="white" p={8}>
-          <Heading as="h1" size="2xl" mb={4}>
-            FAQ (Questions fréquemment posées)
-          </Heading>
-        </Box>
+    <Box pb={16}>
+      <PageHero title={t('faq.heroTitle')} subtitle={t('faq.subtitle')} />
+      <Box as="section" py={{ base: 14, md: 20 }} bg="surface.muted">
+        <Container maxW="5xl">
+          <Box maxW="700px" mx="auto" textAlign="center" mb={12}>
+            <Heading as="h2" size="xl">
+              {t('faq.title')}
+            </Heading>
+            <Box w="56px" h="5px" bg="brand.500" borderRadius="full" mx="auto" mt={4} />
+          </Box>
+          <Box
+            bg="surface.base"
+            borderRadius="2xl"
+            boxShadow="sm"
+            border="1px solid"
+            borderColor="border.subtle"
+            overflow="hidden"
+          >
+            <Accordion allowToggle>
+              {[1, 2, 3, 4, 5, 6].map((n) => (
+                <AccordionItem key={n} borderColor="border.subtle">
+                  <AccordionButton py={5} _expanded={{ bg: 'brand.50', color: 'brand.700' }}>
+                    <Box flex="1" textAlign="left" fontWeight="600">
+                      {t(`faq.q${n}`)}
+                    </Box>
+                    <AccordionIcon />
+                  </AccordionButton>
+                  <AccordionPanel pb={5} color="text.soft">
+                    {t(`faq.a${n}`)}
+                  </AccordionPanel>
+                </AccordionItem>
+              ))}
+            </Accordion>
+          </Box>
+        </Container>
       </Box>
-
-      {/* FAQ Section */}
-      <Flex
-        direction="column"
-        alignItems="center"
-        justifyContent="center"
-        height="80vh" // Reduced height here
-        bgImage={`url(${home3})`} // Set background image
-        bgSize="cover" // Cover the entire section
-        bgPosition="center" // Center the image
-        p={4}
-        backgroundBlendMode="overlay"
-        backgroundColor="rgba(0, 0, 0, 0.5)" // Overlay effect to make text readable
-      >
-        <Box
-          bg="white"
-          borderRadius="md"
-          boxShadow="lg"
-          p={8}
-          width="80%"
-          maxWidth="800px"
-          textAlign="left"
-        >
-          <Heading as="h2" size="xl" mb={4}>
-            Questions Fréquentes (FAQs)
-          </Heading>
-          <Text mb={4}>
-            Trouvez des réponses aux questions les plus courantes concernant nos services bancaires, comptes, prêts et plus encore.
-          </Text>
-
-          {/* Accordion for Banking FAQ */}
-          <Accordion allowToggle>
-            <AccordionItem>
-              <h2>
-                <AccordionButton>
-                  <Box flex="1" textAlign="left">
-                    Comment ouvrir un compte Epagne ?
-                  </Box>
-                  <AccordionIcon />
-                </AccordionButton>
-              </h2>
-              <AccordionPanel pb={4}>
-                L'ouverture de compte est à $ 5.00 si c'est Courant $ 10.00 Maisha et $ 3.00 Epargne a la Carte; les documents à présenter sont: Photo passeport, et une copie de pièce d'identité
-              </AccordionPanel>
-            </AccordionItem>
-
-            <AccordionItem>
-              <h2>
-                <AccordionButton>
-                  <Box flex="1" textAlign="left">
-                    Quels types de comptes Epargne proposez-vous ?
-                  </Box>
-                  <AccordionIcon />
-                </AccordionButton>
-              </h2>
-              <AccordionPanel pb={4}>
-               Epargne Courant, Epargne Maisha et Epargne à la Carte 
-                </AccordionPanel>
-            </AccordionItem>
-
-            <AccordionItem>
-              <h2>
-                <AccordionButton>
-                  <Box flex="1" textAlign="left">
-                    Comment puis-je demander un Credit ?
-                  </Box>
-                  <AccordionIcon />
-                </AccordionButton>
-              </h2>
-              <AccordionPanel pb={4}>
-                Passez à La réception et remplissez fiche de demande de crédit, moyant le frais d'Etude de Dossier qui est le 1% du montant demandé
-              </AccordionPanel>
-            </AccordionItem>
-
-            <AccordionItem>
-              <h2>
-                <AccordionButton>
-                  <Box flex="1" textAlign="left">
-                    Quels types de Crédit proposez-vous ?
-                  </Box>
-                  <AccordionIcon />
-                </AccordionButton>
-              </h2>
-              <AccordionPanel pb={4}>
-               Crédit Mushahara, Crédit Twekambe et Crédit Nibuthe 
-                </AccordionPanel>
-            </AccordionItem>
-
-            <AccordionItem>
-              <h2>
-                <AccordionButton>
-                  <Box flex="1" textAlign="left">
-                    Quel est le taux d'intérêt des comptes d'épargne Bloqués?
-                  </Box>
-                  <AccordionIcon />
-                </AccordionButton>
-              </h2>
-              <AccordionPanel pb={4}>
-                Le taux d'intérêt pour l'epargne bloqué est de 2% mensuel.
-              </AccordionPanel>
-            </AccordionItem>
-
-            <AccordionItem>
-              <h2>
-                <AccordionButton>
-                  <Box flex="1" textAlign="left">
-                    Puis-je accéder à mon compte depuis n'importe où dans le monde ?
-                  </Box>
-                  <AccordionIcon />
-                </AccordionButton>
-              </h2>
-              <AccordionPanel pb={4}>
-                No, pour le moment c'est seulement à la RDC 
-                </AccordionPanel>
-            </AccordionItem>
-
-            {/* Add more AccordionItems as needed */}
-          </Accordion>
-
-          {/* Read More Button */}
-        
-        </Box>
-      </Flex>
     </Box>
   );
 };

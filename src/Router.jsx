@@ -1,10 +1,8 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import MainLayout from './Main_Layout';
 import Home from './pages/home';
 import AboutUs from './pages/about_us';
-import ContactUs from './pages/contact_us';
-import HeroSection from './pages/heroSection';
 import ServicesSection from './pages/services';
 import PromotionsSection from './pages/promotions';
 import ActivitiesSection from './pages/activities';
@@ -22,8 +20,8 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<MainLayout>< HeroSection /></MainLayout>} />
-        <Route path="/home" element={<MainLayout>< Home /></MainLayout>} />
+        <Route path="/" element={<Navigate to="/home" replace />} />
+        <Route path="/home" element={<MainLayout><Home /></MainLayout>} />
         <Route path="/about_us" element={<MainLayout><AboutUs /></MainLayout>} />
         <Route path="/services" element={<MainLayout><ServicesSection /></MainLayout>} />
         <Route path="/promotions" element={<MainLayout><PromotionsSection /></MainLayout>} />
@@ -36,7 +34,6 @@ function App() {
         <Route path="/credit" element={<MainLayout><CreditSection /></MainLayout>} />
         <Route path="/epargne" element={<MainLayout><SubServicesSection /></MainLayout>} />
         <Route path="/testimonials" element={<MainLayout><TestimonialsSection /></MainLayout>} />
-        <Route path="/contact_us" element={<MainLayout><ContactUs /></MainLayout>} />
       </Routes>
     </Router>
   );

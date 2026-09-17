@@ -1,181 +1,110 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Heading, Text, Image, Flex, IconButton } from '@chakra-ui/react';
+import { useTranslation } from 'react-i18next';
+import { Box, Container, Heading, Text, Flex, IconButton, HStack, Icon } from '@chakra-ui/react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import { motion, AnimatePresence } from 'framer-motion';
-import home3 from '../Components/Assetes/home3.jpg'; // Background image
-import heroImage from '../Components/Assetes/home1.webp';
+import { FaQuoteLeft } from 'react-icons/fa';
+import PageHero from '../Components/PageHero';
+import { testimonialsData, localize } from '../data';
 
 const TestimonialsSection = () => {
-  const [testimonials, setTestimonials] = useState([]);
+  const { t, i18n } = useTranslation();
+  const testimonials = testimonialsData.map((m) => localize(m, i18n.language));
   const [currentIndex, setCurrentIndex] = useState(0);
-
-  useEffect(() => {
-    const fetchTestimonials = async () => {
-      try {
-        const response = await fetch('https://microtousadmin.onrender.com/api/testimonials/');
-        const data = await response.json();
-        setTestimonials(data); // Save testimonials data
-      } catch (error) {
-        console.error('Error fetching testimonials:', error);
-      }
-    };
-
-    fetchTestimonials();
-  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % testimonials.length);
-    }, 5000); // Slide every 5 seconds
-
+    }, 5000);
     return () => clearInterval(interval);
   }, [testimonials.length]);
 
-  const getNextTestimonial = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % testimonials.length);
-  };
-
-  const getPreviousTestimonial = () => {
-    setCurrentIndex((prevIndex) => (prevIndex - 1 + testimonials.length) % testimonials.length);
-  };
-
   return (
-    <Box>
-        <Box
-        w="100vw"
-        h="40vh"
-        bgImage={`url(${heroImage})`}
-        bgSize="cover"
-        bgPosition="center"
-        bgRepeat="no-repeat"
-        display="flex"
-        alignItems="center"
-        justifyContent="center"
-        position="relative"
-        m={0}
-        p={0}
-      >
-        <Box
-          position="absolute"
-          top="0"
-          left="0"
-          w="100%"
-          h="100%"
-          bg="rgba(0, 0, 0, 0.6)" // Dark overlay for better text readability
-        />
-        <Box zIndex="1" textAlign="center" color="white" p={8}>
-          <Heading as="h1" size="2xl" mb={4}>
-            Testimonials
-          </Heading>
-    
-        </Box>
-      </Box>
-   
-    <Box
-      id="testimonials"
-      p={8}
-      bgImage={`url(${home3})`} // Background image
-      bgSize="cover"
-      bgPosition="center"
-      position="relative"
-      minHeight="60vh"
-    >
-      <Box bg="rgba(0, 0, 0, 0.6)" p={8} borderRadius="md" boxShadow="lg" maxW="800px" mx="auto">
-      <Heading as="h2" size="xl" mb={4} textAlign="center" color="white">
-        Témoignages
-      </Heading>
-      <Text mb={4} textAlign="center" color="white">
-        Découvrez ce que nos clients disent de nos services.
-      </Text>
-        <Box overflow="hidden" position="relative">
-          <AnimatePresence>
-            {testimonials.length > 0 && (
-              <motion.div
-                key={testimonials[currentIndex]?.id}
-                initial={{ opacity: 0, x: '100%' }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: '-100%' }}
-                transition={{
-                  type: 'tween',
-                  ease: 'easeInOut',
-                  duration: 0.6,
-                }}
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  textAlign: 'center',
-                  padding: '1rem',
-                  backgroundColor: 'white',
-                  borderRadius: '10px',
-                  boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
-                  maxWidth: '600px',
-                  margin: '0 auto',
-                }}
-              >
-                {/* Use requested image structure */}
-                {testimonials[currentIndex]?.image && (
-                  <Image
-                    src={
-                      testimonials[currentIndex].image.startsWith('/media/')
-                        ? `http://127.0.0.1:8000${testimonials[currentIndex].image}`
-                        : testimonials[currentIndex].image
-                    }
+    <Box pb={16}>
+      <PageHero title={t('testimonials.heroTitle')} subtitle={t('testimonials.subtitle')} />
+      <Box as="section" py={{ base: 14, md: 20 }} bg="surface.muted">
+        <Container maxW="5xl">
+          <Box maxW="700px" mx="auto" textAlign="center" mb={12}>
+            <Heading as="h2" size="xl">
+              {t('testimonials.title')}
+            </Heading>
+            <Box w="56px" h="5px" bg="brand.500" borderRadius="full" mx="auto" mt={4} />
+          </Box>
+          <Box
+            bg="surface.base"
+            borderRadius="2xl"
+            border="1px solid"
+            borderColor="border.subtle"
+            boxShadow="sm"
+            p={{ base: 8, md: 14 }}
+            position="relative"
+            overflow="hidden"
+          >
+            <AnimatePresence mode="wait">
+              {testimonials.length > 0 && (
+                <motion.div
+                  key={testimonials[currentIndex]?.id}
+                  initial={{ opacity: 0, x: 60 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -60 }}
+                  transition={{ duration: 0.45, ease: 'easeInOut' }}
+                >
+                  <Box textAlign="center">
+                    <Icon as={FaQuoteLeft} boxSize={9} color="accent.400" mb={5} mx="auto" />
+                    <Text
+                      fontSize={{ base: 'lg', md: 'xl' }}
+                      color="text.soft"
+                      fontStyle="italic"
+                      maxW="720px"
+                      mx="auto"
+                      mb={6}
+                    >
+                      "{testimonials[currentIndex]?.text}"
+                    </Text>
+                    <Text fontWeight="700" fontSize="lg" color="brand.600">
+                      {testimonials[currentIndex]?.name}
+                    </Text>
+                  </Box>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </Box>
+          <Flex justify="center" align="center" mt={8} gridGap={4}>
+            <IconButton
+              aria-label="Previous"
+              icon={<ChevronLeftIcon />}
+              onClick={() => setCurrentIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length)}
+              variant="outline"
+              color="brand.500"
+              size="sm"
+            />
+            <HStack spacing={2}>
+              {testimonials.length > 0 &&
+                testimonials.map((_, index) => (
+                  <Box
+                    key={index}
+                    as="button"
+                    width={currentIndex === index ? '26px' : '10px'}
+                    height="10px"
                     borderRadius="full"
-                    boxSize="120px"
-                    objectFit="cover"
-                    alt={`${testimonials[currentIndex]?.name}'s profile`}
-                    mb={4}
+                    bg={currentIndex === index ? 'brand.500' : 'gray.300'}
+                    transition="all 0.3s ease"
+                    onClick={() => setCurrentIndex(index)}
                   />
-                )}
-                <Heading as="h3" size="md" fontWeight="bold" mb={2} color="gray.800">
-                  {testimonials[currentIndex]?.name}
-                </Heading>
-                <Text maxW="400px" fontSize="sm" color="gray.600">
-                  "{testimonials[currentIndex]?.text}"
-                </Text>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </Box>
-
-        <Flex justify="center" mt={4}>
-          <IconButton
-            aria-label="Previous"
-            icon={<ChevronLeftIcon />}
-            onClick={getPreviousTestimonial}
-            colorScheme="teal"
-            size="lg"
-            mr={4}
-          />
-          <IconButton
-            aria-label="Next"
-            icon={<ChevronRightIcon />}
-            onClick={getNextTestimonial}
-            colorScheme="teal"
-            size="lg"
-          />
-        </Flex>
-
-        <Flex justify="center" mt={4}>
-          {testimonials.length > 0 &&
-            testimonials.map((_, index) => (
-              <Box
-                key={index}
-                as="span"
-                width="10px"
-                height="10px"
-                borderRadius="50%"
-                bg={currentIndex === index ? 'teal.500' : 'gray.300'}
-                mx={2}
-                cursor="pointer"
-                onClick={() => setCurrentIndex(index)}
-              />
-            ))}
-        </Flex>
+                ))}
+            </HStack>
+            <IconButton
+              aria-label="Next"
+              icon={<ChevronRightIcon />}
+              onClick={() => setCurrentIndex((prev) => (prev + 1) % testimonials.length)}
+              variant="outline"
+              color="brand.500"
+              size="sm"
+            />
+          </Flex>
+        </Container>
       </Box>
     </Box>
-     </Box>
   );
 };
 

@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { 
   Box, 
+  Container,
   FormControl, 
   FormLabel, 
   Input, 
@@ -9,13 +11,13 @@ import {
   useToast, 
   Grid, 
   Text, 
-  Flex, 
-  Image 
+  Stack,
+  Divider,
 } from '@chakra-ui/react';
-import useSubmitApplication from '../Components/useSubmitApplication';
-import aboutImage from '../Components/Assetes/Gerante1.jpeg'; // Chemin corrigé pour l'importation de l'image
+import PageHero from '../Components/PageHero';
 
 const ApplicationForm = () => {
+  const { t } = useTranslation();
   const [formData, setFormData] = useState({
     full_name: '',
     email: '',
@@ -29,10 +31,9 @@ const ApplicationForm = () => {
     starting_date: '',
   });
 
-  const { submitApplication, loading } = useSubmitApplication(); // Utilisation du hook pour la soumission
+  const [loading, setLoading] = useState(false);
   const toast = useToast();
 
-  // Gérer les changements de texte dans les champs de saisie
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevState) => ({
@@ -41,198 +42,194 @@ const ApplicationForm = () => {
     }));
   };
 
-  // Gérer les changements de fichiers dans les champs de saisie de fichier
   const handleFileChange = (e) => {
     const { name, files } = e.target;
     setFormData((prevState) => ({
       ...prevState,
-      [name]: files[0], // Stocker le premier fichier sélectionné
+      [name]: files[0],
     }));
   };
 
-  // Gérer la soumission du formulaire
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      await submitApplication(formData);
-      
-      // Réinitialiser les données du formulaire après une soumission réussie
-      setFormData({
-        full_name: '',
-        email: '',
-        place: '',
-        nationality: '',
-        sex: '',
-        cv: null,
-        cover_letter: null,
-        other_documents: null,
-        years_of_experience: '',
-        starting_date: '',
-      });
+    setLoading(true);
 
-      toast({
-        title: 'Candidature soumise.',
-        description: 'Votre candidature a été soumise avec succès !',
-        status: 'success',
-        duration: 3000,
-        isClosable: true,
-      });
-    } catch (error) {
-      // La gestion des erreurs se fait dans le hook personnalisé
-    }
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+
+    setFormData({
+      full_name: '',
+      email: '',
+      place: '',
+      nationality: '',
+      sex: '',
+      cv: null,
+      cover_letter: null,
+      other_documents: null,
+      years_of_experience: '',
+      starting_date: '',
+    });
+    e.target.reset();
+
+    toast({
+      title: t('application.toastSuccessTitle'),
+      description: t('application.toastSuccessDesc'),
+      status: 'success',
+      duration: 3000,
+      isClosable: true,
+      position: 'top',
+    });
+
+    setLoading(false);
   };
 
   return (
-    <Flex 
-      direction={['column', 'column', 'row']} 
-      p={6} 
-      maxW="1200px" 
-      mx="auto" 
-      mt={10} 
-      borderRadius="md" 
-      boxShadow="lg" 
-      bg="white"
-    >
-      <Box flex="1" p={6}>
-        <Text fontSize="2xl" fontWeight="bold" mb={6} textAlign="center">
-          Formulaire de Candidature
-        </Text>
-        <form onSubmit={handleSubmit}>
-          <Grid templateColumns={['1fr', '1fr 1fr']} gap={6}>
-            <FormControl isRequired>
-              <FormLabel htmlFor="full_name">Nom Complet</FormLabel>
-              <Input 
-                id="full_name" 
-                name="full_name" 
-                value={formData.full_name} 
-                onChange={handleChange} 
-              />
-            </FormControl>
-
-            <FormControl isRequired>
-              <FormLabel htmlFor="email">Email</FormLabel>
-              <Input 
-                id="email" 
-                name="email" 
-                type="email" 
-                value={formData.email} 
-                onChange={handleChange} 
-              />
-            </FormControl>
-
-            <FormControl isRequired>
-              <FormLabel htmlFor="place">Lieu</FormLabel>
-              <Input 
-                id="place" 
-                name="place" 
-                value={formData.place} 
-                onChange={handleChange} 
-                placeholder="Bunia, RDC" 
-              />
-            </FormControl>
-
-            <FormControl isRequired>
-              <FormLabel htmlFor="nationality">Nationalité</FormLabel>
-              <Select 
-                id="nationality" 
-                name="nationality" 
-                value={formData.nationality} 
-                onChange={handleChange} 
-                placeholder="Sélectionner la nationalité"
-              >
-                <option value="congolese">Congolaise</option>
-                <option value="kenyan">Kényane</option>
-                <option value="rwandan">Rwandaise</option>
-              </Select>
-            </FormControl>
-
-            <FormControl isRequired>
-              <FormLabel htmlFor="sex">Sexe</FormLabel>
-              <Select 
-                id="sex" 
-                name="sex" 
-                value={formData.sex} 
-                onChange={handleChange} 
-                placeholder="Sélectionner le sexe"
-              >
-                <option value="male">Homme</option>
-                <option value="female">Femme</option>
-              </Select>
-            </FormControl>
-
-            <FormControl isRequired>
-              <FormLabel htmlFor="cv">CV</FormLabel>
-              <Input 
-                id="cv" 
-                name="cv" 
-                type="file" 
-                onChange={handleFileChange} 
-              />
-            </FormControl>
-
-            <FormControl isRequired>
-              <FormLabel htmlFor="cover_letter">Lettre de Motivation</FormLabel>
-              <Input 
-                id="cover_letter" 
-                name="cover_letter" 
-                type="file" 
-                onChange={handleFileChange} 
-              />
-            </FormControl>
-
-            <FormControl>
-              <FormLabel htmlFor="other_documents">Autres Documents</FormLabel>
-              <Input 
-                id="other_documents" 
-                name="other_documents" 
-                type="file" 
-                onChange={handleFileChange} 
-              />
-            </FormControl>
-
-            <FormControl isRequired>
-              <FormLabel htmlFor="years_of_experience">Années d'Expérience</FormLabel>
-              <Select 
-                id="years_of_experience" 
-                name="years_of_experience" 
-                value={formData.years_of_experience} 
-                onChange={handleChange} 
-                placeholder="Sélectionner le niveau d'expérience"
-              >
-                <option value="beginner">Débutant</option>
-                <option value="intermediate">Intermédiaire</option>
-                <option value="advanced">Avancé</option>
-              </Select>
-            </FormControl>
-
-            <FormControl isRequired>
-              <FormLabel htmlFor="starting_date">Date de Début</FormLabel>
-              <Input 
-                id="starting_date" 
-                name="starting_date" 
-                type="date" 
-                value={formData.starting_date} 
-                onChange={handleChange} 
-              />
-            </FormControl>
-          </Grid>
-          <Button 
-            mt={6} 
-            color="#2a8fc1"
-            size="lg"
-            _hover={{ bg: 'yellow.200' }}
-            isLoading={loading} 
-            type="submit"
+    <Box pb={16}>
+      <PageHero title={t('application.title')} />
+      <Box as="section" py={{ base: 14, md: 20 }} bg="surface.muted">
+        <Container maxW="5xl">
+          <Box
+            bg="surface.base"
+            borderRadius="2xl"
+            boxShadow="sm"
+            border="1px solid"
+            borderColor="border.subtle"
+            p={{ base: 6, md: 12 }}
           >
-            Soumettre
-          </Button>
-        </form>
-      </Box>
+            <Text fontSize={{ base: 'xl', md: '2xl' }} fontWeight="700" mb={2} textAlign="center">
+              {t('application.title')}
+            </Text>
+            <Divider mb={8} />
+            <form onSubmit={handleSubmit}>
+              <Grid templateColumns={{ base: '1fr', md: '1fr 1fr' }} gap={6}>
+                <FormControl isRequired>
+                  <FormLabel htmlFor="full_name" fontWeight="600">{t('application.fullName')}</FormLabel>
+                  <Input
+                    id="full_name"
+                    name="full_name"
+                    value={formData.full_name}
+                    onChange={handleChange}
+                    placeholder={t('application.fullName')}
+                  />
+                </FormControl>
 
-      <Box flex="1" display={['none', 'none', 'block']} p={6}>
-        <Image src={aboutImage} alt="Candidature" />
+                <FormControl isRequired>
+                  <FormLabel htmlFor="email" fontWeight="600">{t('application.email')}</FormLabel>
+                  <Input
+                    id="email"
+                    name="email"
+                    type="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    placeholder={t('application.email')}
+                  />
+                </FormControl>
+
+                <FormControl isRequired>
+                  <FormLabel htmlFor="place" fontWeight="600">{t('application.place')}</FormLabel>
+                  <Input
+                    id="place"
+                    name="place"
+                    value={formData.place}
+                    onChange={handleChange}
+                    placeholder={t('application.placePlaceholder')}
+                  />
+                </FormControl>
+
+                <FormControl isRequired>
+                  <FormLabel htmlFor="nationality" fontWeight="600">{t('application.nationality')}</FormLabel>
+                  <Select
+                    id="nationality"
+                    name="nationality"
+                    value={formData.nationality}
+                    onChange={handleChange}
+                    placeholder={t('application.nationalityPlaceholder')}
+                  >
+                    <option value="congolese">{t('application.nationalityCongolese')}</option>
+                    <option value="kenyan">{t('application.nationalityKenyan')}</option>
+                    <option value="rwandan">{t('application.nationalityRwandan')}</option>
+                  </Select>
+                </FormControl>
+
+                <FormControl isRequired>
+                  <FormLabel htmlFor="sex" fontWeight="600">{t('application.sex')}</FormLabel>
+                  <Select
+                    id="sex"
+                    name="sex"
+                    value={formData.sex}
+                    onChange={handleChange}
+                    placeholder={t('application.sexPlaceholder')}
+                  >
+                    <option value="male">{t('application.sexMale')}</option>
+                    <option value="female">{t('application.sexFemale')}</option>
+                  </Select>
+                </FormControl>
+
+                <FormControl isRequired>
+                  <FormLabel htmlFor="cv" fontWeight="600">{t('application.cv')}</FormLabel>
+                  <Input
+                    id="cv"
+                    name="cv"
+                    type="file"
+                    onChange={handleFileChange}
+                  />
+                </FormControl>
+
+                <FormControl isRequired>
+                  <FormLabel htmlFor="cover_letter" fontWeight="600">{t('application.coverLetter')}</FormLabel>
+                  <Input
+                    id="cover_letter"
+                    name="cover_letter"
+                    type="file"
+                    onChange={handleFileChange}
+                  />
+                </FormControl>
+
+                <FormControl>
+                  <FormLabel htmlFor="other_documents" fontWeight="600">{t('application.otherDocuments')}</FormLabel>
+                  <Input
+                    id="other_documents"
+                    name="other_documents"
+                    type="file"
+                    onChange={handleFileChange}
+                  />
+                </FormControl>
+
+                <FormControl isRequired>
+                  <FormLabel htmlFor="years_of_experience" fontWeight="600">{t('application.experience')}</FormLabel>
+                  <Select
+                    id="years_of_experience"
+                    name="years_of_experience"
+                    value={formData.years_of_experience}
+                    onChange={handleChange}
+                    placeholder={t('application.experiencePlaceholder')}
+                  >
+                    <option value="beginner">{t('application.experienceBeginner')}</option>
+                    <option value="intermediate">{t('application.experienceIntermediate')}</option>
+                    <option value="advanced">{t('application.experienceAdvanced')}</option>
+                  </Select>
+                </FormControl>
+
+                <FormControl isRequired>
+                  <FormLabel htmlFor="starting_date" fontWeight="600">{t('application.startDate')}</FormLabel>
+                  <Input
+                    id="starting_date"
+                    name="starting_date"
+                    type="date"
+                    value={formData.starting_date}
+                    onChange={handleChange}
+                  />
+                </FormControl>
+              </Grid>
+              <Stack direction={{ base: 'column', md: 'row' }} justifyContent="center" mt={8} spacing={4}>
+                <Button size="lg" colorScheme="brand" isLoading={loading} type="submit" loadingText={t('application.submit')}>
+                  {t('application.submit')}
+                </Button>
+              </Stack>
+            </form>
+          </Box>
+        </Container>
       </Box>
-    </Flex>
+    </Box>
   );
 };
 

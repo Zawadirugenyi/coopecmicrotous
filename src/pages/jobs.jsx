@@ -1,101 +1,96 @@
-import React, { useState, useEffect } from 'react';
-import { Box, Heading, Text, Button, Grid, Card, CardBody, Stack } from '@chakra-ui/react';
-import axios from 'axios';
-import heroImage from '../Components/Assetes/home1.webp';
+import React from 'react';
+import { useTranslation } from 'react-i18next';
+import { Box, Container, Heading, Text, Button, SimpleGrid, Flex, Icon } from '@chakra-ui/react';
+import { FaUsers } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
+import PageHero from '../Components/PageHero';
+import { jobsData, localize } from '../data';
 
 const JobsSection = () => {
-  const [jobs, setJobs] = useState([]);
-  const [error, setError] = useState('');
-  const navigate = useNavigate();  // Pour naviguer vers le formulaire de candidature
-
-  useEffect(() => {
-    const fetchJobs = async () => {
-      try {
-        const response = await axios.get('https://microtousadmin.onrender.com/api/jobinternships/');
-        setJobs(response.data);
-        setError('');
-      } catch (err) {
-        console.error('Erreur lors de la récupération des emplois :', err);
-        setError('Échec de la récupération des emplois. Veuillez réessayer.');
-      }
-    };
-
-    fetchJobs();
-  }, []);
+  const { t, i18n } = useTranslation();
+  const jobs = jobsData.map((j) => localize(j, i18n.language));
+  const navigate = useNavigate();
 
   const handleApply = (jobId) => {
-    console.log(`Candidature pour le poste avec ID : ${jobId}`);
-    // Naviguer vers le formulaire de candidature ou tout autre chemin souhaité
-    navigate(`/application/${jobId}`);  // Adaptez la route selon la structure de votre application
+    navigate(`/application/${jobId}`);
   };
 
   return (
-    <Box>
-      {/* Section Hero */}
-      <Box
-        w="100vw"
-        h="40vh"
-        bgImage={`url(${heroImage})`}
-        bgSize="cover"
-        bgPosition="center"
-        bgRepeat="no-repeat"
-        display="flex"
-        alignItems="center"
-        justifyContent="center"
-        position="relative"
-        m={0}
-        p={0}
-      >
-        <Box
-          position="absolute"
-          top="0"
-          left="0"
-          w="100%"
-          h="100%"
-          bg="rgba(0, 0, 0, 0.6)" // Superposition sombre pour améliorer la lisibilité du texte
-        />
-        <Box zIndex="1" textAlign="center" color="white" p={8}>
-          <Heading as="h1" size="2xl" mb={4}>
-            Emplois et Stages
-          </Heading>
-        </Box>
-      </Box>
-
-      {/* Section Emplois */}
-      <Heading as="h2" size="xl" mb={4} textAlign="center" marginTop="30px">
-        Emplois et Stages
-      </Heading>
-      <Text mb={4} textAlign="center">
-        Rejoignez notre équipe ! Nous cherchons toujours des personnes talentueuses pour nous aider à grandir.
-      </Text>
-      {error && <Text color="red.500" mb={4}>{error}</Text>}
-
-      {/* Cartes des Emplois */}
-      <Grid templateColumns={{ base: '1fr', md: '1fr 1fr', lg: '1fr 1fr 1fr' }} gap={6}>
-        {jobs.map((job, index) => (
-          <Card key={index} bg="white" boxShadow="md" borderRadius="md">
-            <CardBody>
-              <Stack spacing={4}>
-                <Heading as="h3" size="md">
+    <Box pb={16}>
+      <PageHero title={t('jobs.heroTitle')} subtitle={t('jobs.subtitle')} />
+      <Box as="section" py={{ base: 14, md: 20 }} bg="surface.muted">
+        <Container maxW="7xl">
+          <Box maxW="700px" mx="auto" textAlign="center" mb={12}>
+            <Heading as="h2" size="xl">
+              {t('jobs.title')}
+            </Heading>
+            <Box w="56px" h="5px" bg="brand.500" borderRadius="full" mx="auto" mt={4} />
+          </Box>
+          {jobs.length === 0 ? (
+            <Box
+              bg="surface.base"
+              borderRadius="2xl"
+              boxShadow="sm"
+              border="1px solid"
+              borderColor="border.subtle"
+              p={{ base: 12, md: 16 }}
+              textAlign="center"
+            >
+              <Text color="text.soft" fontSize="lg" mb={6}>
+                {t('jobs.comingSoon')}
+              </Text>
+              <Button
+                as="a"
+                href="mailto:info@microtous.com,support@microtous.com?subject=Internship%20Request"
+                size="lg"
+                colorScheme="brand"
+              >
+                {t('internship.cta')}
+              </Button>
+            </Box>
+          ) : (
+          <SimpleGrid columns={{ base: 1, md: 3 }} spacing={8}>
+            {jobs.map((job) => (
+              <Box
+                key={job.id}
+                bg="surface.base"
+                borderRadius="2xl"
+                p={8}
+                border="1px solid"
+                borderColor="border.subtle"
+                boxShadow="sm"
+                display="flex"
+                flexDirection="column"
+                transition="transform 0.25s ease, boxShadow 0.25s ease"
+                _hover={{ transform: 'translateY(-6px)', boxShadow: 'xl' }}
+              >
+                <Flex
+                  w="52px"
+                  h="52px"
+                  borderRadius="xl"
+                  bg="brand.50"
+                  color="brand.500"
+                  align="center"
+                  justify="center"
+                  mb={5}
+                >
+                  <Icon as={FaUsers} boxSize={6} />
+                </Flex>
+                <Heading as="h3" size="md" mb={3}>
                   {job.title}
                 </Heading>
-                <Text>{job.description}</Text>
-                <Button
-                  onClick={() => handleApply(job.id)}
-                  color="#2a8fc1"
-                  size="lg"
-                  _hover={{ bg: 'yellow.200' }}
-                  px={8}
-                  mt="10px"
-                >
-                  Postuler
+                <Text color="text.muted" fontSize="sm" mb={6} flex="1">
+                  {job.description}
+                </Text>
+                <Button colorScheme="brand" size="sm" alignSelf="flex-start" onClick={() => handleApply(job.id)}>
+                  {t('jobs.apply')}
                 </Button>
-              </Stack>
-            </CardBody>
-          </Card>
-        ))}
-      </Grid>
+              </Box>
+            ))}
+          </SimpleGrid>
+          )}
+        </Container>
+      </Box>
     </Box>
   );
 };

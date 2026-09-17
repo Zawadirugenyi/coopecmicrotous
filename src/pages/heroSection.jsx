@@ -1,34 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { Box, Button, Heading, Text } from '@chakra-ui/react';
+import { useTranslation } from 'react-i18next';
 import backgroundImage1 from '../Components/Assetes/hoome.jpeg';
 import backgroundImage2 from '../Components/Assetes/1113.jpeg';
 import backgroundImage3 from '../Components/Assetes/home3.jpg';
 
 const HeroSection = () => {
+  const { t } = useTranslation();
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const images = [
-    {
-      src: backgroundImage1,
-      lang: 'en',
-      heading: 'Welcome to COOPECMICROTOUS',
-      message: 'Let’s build our empire.',
-      buttonText: 'Get Started',
-    },
-    {
-      src: backgroundImage2,
-      lang: 'fr',
-      heading: 'Bienvenue chez COOPECMICROTOUS',
-      message: 'Bâtissons notre empire.',
-      buttonText: 'Commencer',
-    },
-    {
-      src: backgroundImage3,
-      lang: 'sw',
-      heading: 'Karibu COOPECMICROTOUS',
-      message: 'Tujenge ufalme wetu.',
-      buttonText: 'Anza',
-    },
+    { src: backgroundImage1 },
+    { src: backgroundImage2 },
+    { src: backgroundImage3 },
   ];
 
  
@@ -99,7 +83,7 @@ const HeroSection = () => {
             textShadow="2px 2px 4px rgba(0, 0, 0, 0.5)"
             mt="-170px" // Added margin-top to move the heading down a bit
           >
-            {images[currentIndex].heading}
+            {t('hero.heading')}
           </Heading>
           <Text
             color="white"
@@ -110,7 +94,7 @@ const HeroSection = () => {
             textShadow="2px 2px 4px rgba(0, 0, 0, 0.5)"
             mt="-10px" // Added margin-top to move the text down a bit
           >
-            {images[currentIndex].message}
+            {t('hero.message')}
           </Text>
           <Button
             color="#2a8fc1"
@@ -121,7 +105,7 @@ const HeroSection = () => {
             href="home"
             mt="-9px" // Added margin-top to move the button down a bit
           >
-            {images[currentIndex].buttonText}
+            {t('hero.buttonText')}
           </Button>
         </Box>
       </Box>

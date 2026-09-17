@@ -1,121 +1,110 @@
 import React from 'react';
-import { Box, Grid, Heading, Text} from '@chakra-ui/react';
-import heroImage from '../Components/Assetes/home2.jpg'; // Corrigé la faute de frappe dans 'Assetes'
+import { useTranslation } from 'react-i18next';
+import { Box, Container, Grid, Heading, Text, SimpleGrid, Flex, Icon } from '@chakra-ui/react';
+import { FaHandsHelping, FaHandshake, FaShieldAlt, FaAward } from 'react-icons/fa';
+import PageHero from '../Components/PageHero';
 
 const AboutUsSection = () => {
+  const { t } = useTranslation();
+
+  const cards = [
+    { title: t('about.who'), text: t('about.whoText') },
+    { title: t('about.mission'), text: t('about.missionText') },
+    { title: t('about.vision'), text: t('about.visionText') },
+  ];
+
+  const values = [
+    { icon: FaHandsHelping, title: t('about.value1Title'), text: t('about.value1Text') },
+    { icon: FaHandshake, title: t('about.value2Title'), text: t('about.value2Text') },
+    { icon: FaShieldAlt, title: t('about.value3Title'), text: t('about.value3Text') },
+    { icon: FaAward, title: t('about.value4Title'), text: t('about.value4Text') },
+  ];
+
   return (
-    <>
-      {/* Section Hero */}
-      <Box
-        w="100vw"
-        h="50vh"
-        bgImage={`url(${heroImage})`}
-        bgSize="cover"
-        bgPosition="center"
-        bgRepeat="no-repeat"
-        display="flex"
-        alignItems="center"
-        justifyContent="center"
-        position="relative"
-        borderRadius="none"
-        m={0} // Retirer les marges
-        p={0} // Retirer les paddings
-      >
-        <Box
-          position="absolute"
-          top="0"
-          left="0"
-          w="100%"
-          h="100%"
-          bg="rgba(0, 0, 0, 0.6)" // Superposition sombre pour une meilleure lisibilité du texte
-        />
-        <Box zIndex="1" textAlign="center" color="white" p={8}>
-          <Heading as="h1" size="2xl" mb={4}>
-            À propos de nous
-          </Heading>
-        </Box>
-      </Box>
-
-      {/* Section À propos de nous */}
-      <Box id="about-us" p={8} bg="gray.100">
-        {/* Carte principale */}
-        <Box
-          borderRadius="lg"
-          overflow="hidden"
-          boxShadow="lg"
-          bg="white"
-          p={8}
-          mb={8} // Marge pour séparer des autres sections
-        >
-          <Heading as="h2" size="xl" mb={8} textAlign="center" color="#2a8fc1">
-            Qui sommes-nous ?
-          </Heading>
-
-          {/* Grille des trois cartes */}
-          <Grid
-            templateColumns={{
-              base: '1fr', // Colonne unique sur les écrans plus petits
-              md: '1fr 1fr 1fr', // Trois colonnes sur les écrans moyens et plus grands
-            }}
-            gap={8}
-            alignItems="stretch"
-          >
-            {/* Carte Qui sommes-nous ? */}
-            <Box
-              borderRadius="lg"
-              overflow="hidden"
-              boxShadow="lg"
-              bg="white"
-              p={8}
-              height="auto"
-            >
-              <Heading as="h3" size="lg" mb={4}>
-                Qui sommes-nous ?
-              </Heading>
-              <Text mb={4} fontSize="lg">
-             Nous sommes une coopérative d’épargne et de crédit engagée à améliorer l’inclusion financière et le bien-être économique de nos membres. Notre équipe de professionnels dévoués œuvre chaque jour pour offrir des services financiers fiables, accessibles et de qualité. Forts de notre expérience, nous proposons des solutions adaptées aux besoins réels de chaque membre, tout en contribuant au développement durable de la communauté.
-              </Text>
-            </Box>
-
-            {/* Carte Mission */}
-            <Box
-              borderRadius="lg"
-              overflow="hidden"
-              boxShadow="lg"
-              bg="white"
-              p={8}
-              height="auto"
-            >
-              <Heading as="h3" size="lg" mb={4}>
-                Notre mission
-              </Heading>
-              <Text mb={4} fontSize="lg">
-               Notre mission est de collecter les épargnes de nos membres et de les gérer de manière sécurisée afin de financer leurs projets, soutenir leurs besoins financiers et favoriser leur développement économique. Nous nous engageons à offrir des services fiables, accessibles et adaptés, tout en promouvant la solidarité et l’autonomie financière au sein de notre communauté. 
-              </Text>
+    <Box pb={16}>
+      <PageHero title={t('about.heroTitle')} subtitle={t('home.aboutTitle')} />
+      <Box as="section" py={{ base: 14, md: 20 }} bg="surface.muted">
+        <Container maxW="7xl">
+          <Box maxW="700px" mx="auto" textAlign="center" mb={12}>
+            <Heading as="h2" size="xl">
+              {t('about.who')}
+            </Heading>
+            <Box w="56px" h="5px" bg="brand.500" borderRadius="full" mx="auto" mt={4} />
+          </Box>
+          <Grid templateColumns={{ base: '1fr', md: '1fr 1fr 1fr' }} gap={8}>
+            {cards.map((card, index) => (
+              <Box
+                key={index}
+                bg="surface.base"
+                borderRadius="2xl"
+                p={8}
+                border="1px solid"
+                borderColor="border.subtle"
+                boxShadow="sm"
+                transition="transform 0.25s ease, boxShadow 0.25s ease"
+                _hover={{ transform: 'translateY(-6px)', boxShadow: 'xl' }}
+              >
+                <Box w="56px" h="6px" bg="accent.400" borderRadius="full" mb={6} />
+                <Heading as="h3" size="lg" mb={4}>
+                  {card.title}
+                </Heading>
+                <Text color="text.soft" fontSize="md">
+                  {card.text}
+                </Text>
               </Box>
-
-            {/* Carte Vision */}
-            <Box
-              borderRadius="lg"
-              overflow="hidden"
-              boxShadow="lg"
-              bg="white"
-              p={8}
-              height="auto"
-            >
-              <Heading as="h3" size="lg" mb={4}>
-                Notre vision
-              </Heading>
-              <Text mb={4} fontSize="lg">
-               Notre vision est de bâtir un Empire sans pauvreté, où chaque membre de la COOPEC Microtous a accès à des services financiers fiables et adaptés pour améliorer sa vie. Nous aspirons à être une coopérative reconnue pour son innovation, sa solidarité et son engagement à soutenir la réussite économique de tous nos membres.
-              </Text>
-            </Box>
+            ))}
           </Grid>
-        </Box>
+        </Container>
       </Box>
-    </>
+
+      <Box as="section" py={{ base: 14, md: 20 }} bg="surface.base">
+        <Container maxW="7xl">
+          <Box maxW="700px" mx="auto" textAlign="center" mb={12}>
+            <Heading as="h2" size="xl">
+              {t('about.valuesTitle')}
+            </Heading>
+            <Box w="56px" h="5px" bg="brand.500" borderRadius="full" mx="auto" mt={4} />
+          </Box>
+          <SimpleGrid columns={{ base: 1, md: 2, lg: 4 }} spacing={8}>
+            {values.map((value, index) => (
+              <Box
+                key={index}
+                bg="surface.muted"
+                borderRadius="2xl"
+                p={8}
+                border="1px solid"
+                borderColor="border.subtle"
+                boxShadow="sm"
+                transition="transform 0.25s ease, boxShadow 0.25s ease"
+                _hover={{ transform: 'translateY(-6px)', boxShadow: 'xl' }}
+                textAlign="center"
+              >
+                <Flex
+                  w="64px"
+                  h="64px"
+                  mx="auto"
+                  borderRadius="full"
+                  bg="brand.500"
+                  color="white"
+                  align="center"
+                  justify="center"
+                  mb={6}
+                >
+                  <Icon as={value.icon} boxSize={7} />
+                </Flex>
+                <Heading as="h3" size="md" mb={3}>
+                  {value.title}
+                </Heading>
+                <Text color="text.soft" fontSize="sm">
+                  {value.text}
+                </Text>
+              </Box>
+            ))}
+          </SimpleGrid>
+        </Container>
+      </Box>
+    </Box>
   );
 };
 
 export default AboutUsSection;
-

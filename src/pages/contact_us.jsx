@@ -1,10 +1,11 @@
 import React, { useRef, useState } from 'react';
-import { Box, Heading, Button, Stack, Input, Textarea, Flex, FormControl, FormLabel, Text } from '@chakra-ui/react';
-import contactImage from '../Components/Assetes/Equipe.jpeg';  // Correction du chemin pour la cohérence
-import heroImage from '../Components/Assetes/home1.webp';    // Correction du chemin pour la cohérence
+import { useTranslation } from 'react-i18next';
+import { Box, Heading, Button, Stack, Input, Textarea, Flex, Grid, FormControl, FormLabel, Text } from '@chakra-ui/react';
+import PageHero from '../Components/PageHero';
 import emailjs from '@emailjs/browser';
 
 const ContactSection = () => {
+   const { t } = useTranslation();
    const form = useRef();
    const [formData, setFormData] = useState({ user_name: '', user_email: '', message: '' });
    const [isSubmitted, setIsSubmitted] = useState(false);
@@ -14,21 +15,22 @@ const ContactSection = () => {
    const sendEmail = (e) => {
        e.preventDefault();
        setIsSubmitting(true);
-       setErrorMessage(null); // Réinitialiser le message d'erreur à chaque tentative d'envoi
+       setErrorMessage(null);
 
        emailjs
-           .sendForm('service_u249j16', 'template_sty9mnt', form.current, 'YnzlhG7bfYsDDM0vz') // Remplacer par votre clé publique
+           .sendForm('service_u249j16', 'template_sty9mnt', form.current, 'YnzlhG7bfYsDDM0vz')
            .then(
                () => {
                    setIsSubmitting(false);
                    setIsSubmitted(true);
-                   setFormData({ from_name: '', user_email: '', message: '' });
-                   setTimeout(() => setIsSubmitted(false), 5000); // Masquer le message de succès après 5 secondes
+                   setFormData({ user_name: '', user_email: '', message: '' });
+                   e.target.reset();
+                   setTimeout(() => setIsSubmitted(false), 5000);
                },
                (error) => {
                    console.log('ÉCHEC...', error.text);
                    setIsSubmitting(false);
-                   setErrorMessage("Il y a eu un problème lors de l'envoi de votre message. Veuillez réessayer plus tard.");
+                   setErrorMessage(t('contact.error'));
                }
            );
    };
@@ -39,133 +41,108 @@ const ContactSection = () => {
    };
 
    return (
-       <Box>
-           <Box
-               w="100vw"
-               h="40vh"
-               bgImage={`url(${heroImage})`}
-               bgSize="cover"
-               bgPosition="center"
-               bgRepeat="no-repeat"
-               display="flex"
-               alignItems="center"
+       <Box pb={16}>
+           <PageHero title={t('contact.heroTitle')} subtitle={t('contact.title')} />
+           <Flex
+               as="section"
+               py={{ base: 14, md: 20 }}
+               bg="surface.muted"
                justifyContent="center"
-               position="relative"
-               m={0}
-               p={0}
+               alignItems="flex-start"
+               flexDirection={{ base: 'column', md: 'row' }}
+               gap={{ base: 10, md: 12 }}
+               px={{ base: 4, md: 10 }}
+               maxW="1200px"
+               mx="auto"
            >
                <Box
-                   position="absolute"
-                   top="0"
-                   left="0"
-                   w="100%"
-                   h="100%"
-                   bg="rgba(0, 0, 0, 0.6)" // Superposition sombre pour une meilleure lisibilité du texte
-               />
-               <Box zIndex="1" textAlign="center" color="white" p={8}>
-                   <Heading as="h1" size="2xl" mb={4}>
-                       Contactez-nous
-                   </Heading>
-               </Box>
-           </Box>
-
-           <Flex 
-               id="contact" 
-               p={8} 
-               bg="gray.100" 
-               justifyContent="center" 
-               alignItems="center" 
-               flexDirection={{ base: 'column', md: 'row' }} // Empilement vertical sur petits écrans et horizontal sur grands écrans
-               minHeight="80vh"
-           >
-               {/* Carte du formulaire de contact */}
-               <Box
-                   bg="white"
-                   borderRadius="md"
-                   boxShadow="lg"
-                   p={8}
-                   width={{ base: '100%', md: '50%' }}
-                   mr={{ base: 0, md: 8 }}
-                   mb={{ base: 8, md: 0 }}
+                   bg="surface.base"
+                   borderRadius="2xl"
+                   boxShadow="sm"
+                   border="1px solid"
+                   borderColor="border.subtle"
+                   p={{ base: 6, md: 10 }}
+                   width={{ base: '100%', md: '55%' }}
                >
-                   <Heading as="h2" size="xl" mb={4}>
-                       Contactez-nous
+                   <Heading as="h2" size="xl" mb={8}>
+                       {t('contact.title')}
                    </Heading>
                    <form ref={form} onSubmit={sendEmail}>
-                       <Stack spacing={4}>
-                           <FormControl id="name" isRequired>
-                               <FormLabel>Nom</FormLabel>
-                               <Input
-                                   name="user_name"
-                                   placeholder="Votre nom"
-                                   value={formData.from_name}
-                                   onChange={handleChange}
-                               />
-                           </FormControl>
-                           <FormControl id="email" isRequired>
-                               <FormLabel>Email</FormLabel>
-                               <Input
-                                   type="email"
-                                   name="user_email"
-                                   placeholder="Votre email"
-                                   value={formData.user_email}
-                                   onChange={handleChange}
-                               />
-                           </FormControl>
+                       <Stack spacing={5}>
+                           <Grid templateColumns={{ base: '1fr', md: '1fr 1fr' }} gap={5}>
+                               <FormControl id="name" isRequired>
+                                   <FormLabel fontWeight="600">{t('contact.name')}</FormLabel>
+                                   <Input
+                                       name="user_name"
+                                       placeholder={t('contact.namePlaceholder')}
+                                       value={formData.user_name}
+                                       onChange={handleChange}
+                                   />
+                               </FormControl>
+                               <FormControl id="email" isRequired>
+                                   <FormLabel fontWeight="600">{t('contact.email')}</FormLabel>
+                                   <Input
+                                       type="email"
+                                       name="user_email"
+                                       placeholder={t('contact.emailPlaceholder')}
+                                       value={formData.user_email}
+                                       onChange={handleChange}
+                                   />
+                               </FormControl>
+                           </Grid>
                            <FormControl id="message" isRequired>
-                               <FormLabel>Message</FormLabel>
+                               <FormLabel fontWeight="600">{t('contact.message')}</FormLabel>
                                <Textarea
                                    name="message"
-                                   placeholder="Votre message"
+                                   rows={5}
+                                   placeholder={t('contact.messagePlaceholder')}
                                    value={formData.message}
                                    onChange={handleChange}
                                />
                            </FormControl>
                            {errorMessage && (
-                               <Text color="red.500" mt={2}>
-                                   {errorMessage}
-                               </Text>
+                               <Text color="red.500">{errorMessage}</Text>
+                           )}
+                           {isSubmitted && !errorMessage && (
+                               <Text color="green.500">{t('contact.success')}</Text>
                            )}
                            <Button
-                               color="#2a8fc1"
+                               type="submit"
                                size="lg"
-                               _hover={{ bg: 'yellow.200' }}
-                               px={8}
-                               as="a"
-                               href="services"
-                               mt="10px"
+                               colorScheme="brand"
                                isLoading={isSubmitting}
+                               loadingText={t('contact.send')}
                            >
-                               Envoyer le message
+                               {t('contact.send')}
                            </Button>
-                           {isSubmitted && !errorMessage && (
-                               <Text color="green.500" mt={2}>
-                                   Merci pour votre message ! Nous reviendrons vers vous bientôt.
-                               </Text>
-                           )}
                        </Stack>
                    </form>
                </Box>
 
-               {/* Image à droite */}
-               <Box
-                   flexShrink={0}
-                   width={{ base: '100%', md: '50%' }}
-                   display="flex"
-                   justifyContent="center"
-                   alignItems="center"
-                   mt={{ base: 8, md: 0 }} // Ajouter une marge supérieure pour les petits écrans
-               >
-                   <img
-                       src={contactImage} 
-                       alt="À propos de nous"
-                       style={{
-                           width: '92%',
-                           height: '60vh',
-                           objectFit: 'cover',
-                           borderRadius: '8px', // Ajouter des coins arrondis comme pour la carte de texte
-                       }}
-                   />
+               <Box width={{ base: '100%', md: '45%' }}>
+                   <Box borderRadius="2xl" overflow="hidden" boxShadow="lg" border="1px solid" borderColor="border.subtle">
+                       <iframe
+                           src="https://maps.google.com/maps?q=1.5642063,30.2402869&z=16&output=embed"
+                           title="COOPEC Microtous - Bunia, Ituri"
+                           width="100%"
+                           height="420"
+                           style={{ border: 0 }}
+                           loading="lazy"
+                           referrerPolicy="no-referrer-when-downgrade"
+                           allowFullScreen
+                       />
+                   </Box>
+                   <Button
+                       as="a"
+                       href="https://maps.app.goo.gl/VNpA3uToRUJNxDeS8"
+                       isExternal
+                       size="md"
+                       colorScheme="brand"
+                       mt={4}
+                       w="100%"
+                   >
+                       {t('contact.openMap')}
+                   </Button>
                </Box>
            </Flex>
        </Box>

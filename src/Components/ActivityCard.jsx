@@ -10,7 +10,7 @@ const ActivityCard = ({ activity }) => {
       width="400px"
       overflow="hidden"
       p={3}
-      bg="white"
+      bg="surface.base"
       boxShadow="sm"
       _hover={{ boxShadow: "md" }}
     >
@@ -18,7 +18,7 @@ const ActivityCard = ({ activity }) => {
         {/* Activity Image */}
         {activity.photo && (
           <Image
-            src={`http://127.0.0.1:8000/media${activity.photo}`} // Adjusted image URL
+            src={activity.image}
             alt={`${activity.name}_image`}
             borderRadius="md"
             mb={3}

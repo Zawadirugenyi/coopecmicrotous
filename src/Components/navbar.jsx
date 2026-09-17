@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Flex,
   Box,
@@ -10,150 +10,227 @@ import {
   IconButton,
   Image,
   Text,
+  Divider,
+  useColorMode,
+  useColorModeValue,
 } from '@chakra-ui/react';
-import { Link } from 'react-router-dom';
-import { HamburgerIcon, ChevronDownIcon } from '@chakra-ui/icons';
-import backgroundImage from '../Components/Assetes/microtous.png'; // Image d'arrière-plan correctement importée
+import { Link, useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import { HamburgerIcon, ChevronDownIcon, MoonIcon, SunIcon, DownloadIcon } from '@chakra-ui/icons';
+import logo from '../Components/Assetes/photo_5992532938148922968_x__1_-removebg-preview.png';
 
 function Navbar() {
-  const [activeButton, setActiveButton] = useState(null); // État pour suivre le bouton actif
+  const { t } = useTranslation();
+  const { colorMode, toggleColorMode } = useColorMode();
+  const hoverBg = useColorModeValue('brand.50', 'whiteAlpha.100');
+  const [scrolled, setScrolled] = useState(false);
+  const { pathname } = useLocation();
 
-  const handleButtonClick = (buttonName) => {
-    setActiveButton(buttonName); // Mettre à jour le bouton actif lors du clic
-  };
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    window.addEventListener('scroll', onScroll);
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  const isActive = (path) => pathname === path || pathname.startsWith(path + '/');
+
+  const primary = [
+    { label: t('nav.home'), to: '/home' },
+    { label: t('nav.about'), to: '/about_us' },
+    { label: t('nav.contact'), to: '/contact_us' },
+  ];
+
+  const services = [
+    { label: t('nav.services'), to: '/services' },
+    { label: t('nav.savings'), to: '/epargne' },
+    { label: t('nav.credit'), to: '/credit' },
+  ];
+
+  const secondary = [
+    { label: t('nav.jobs'), to: '/jobs' },
+    { label: t('nav.promotions'), to: '/promotions' },
+    { label: t('nav.testimonials'), to: '/testimonials' },
+    { label: t('nav.faq'), to: '/faq' },
+    { label: t('nav.teams'), to: '/teams' },
+  ];
+
+  const allItems = [...primary, ...services, ...secondary];
 
   return (
     <Flex
-      p={4}
-      bg="white"
+      as="header"
+      w="100%"
+      px={{ base: 4, md: 8 }}
+      py={3}
+      bg="surface.base"
       align="center"
-      wrap="wrap"
       justify="space-between"
-      boxShadow="md"
       position="sticky"
       top="0"
-      zIndex="10"
+      zIndex="20"
+      borderBottom="1px solid"
+      borderColor="border.subtle"
+      boxShadow={scrolled ? 'md' : 'none'}
+      transition="box-shadow 0.2s ease"
     >
-      <Flex align="center" mr={5}>
-        <Image src={backgroundImage} alt="Logo" boxSize={{ base: '60px', md: '70px' }} />
-        <Text fontSize={{ base: 'xl', md: '1xl' }} fontWeight="bold" ml={3}>
-          <span style={{ color: '#2a8fc1' }}>COOPECMICRO</span>
-          <span style={{ color: '#f7e135' }}>TOUS</span>
-        </Text>
+      <Flex align="center">
+        <Image
+          src={logo}
+          alt="COOPEC Microtous"
+          boxSize={{ base: '52px', md: '60px' }}
+          objectFit="contain"
+          borderRadius="md"
+          bg="white"
+          p={1}
+        />
+        <Box ml={3}>
+          <Text fontSize={{ base: 'lg', md: 'xl' }} fontWeight="700" lineHeight="tight">
+            COOPEC
+            <Box as="span" color="accent.400">
+              MICROTOUS
+            </Box>
+          </Text>
+          <Text fontSize="xs" color="text.muted" display={{ base: 'none', sm: 'block' }}>
+            {t('hero.message')}
+          </Text>
+        </Box>
       </Flex>
 
-      {/* Boutons de navigation centrés pour les écrans plus grands */}
-      <Box display={{ base: 'none', md: 'flex' }} justifyContent="center" flex="1">
-        {[
-          { name: 'Accueil', path: '/home' },
-          { name: 'À propos de nous', path: '/about_us' },
-          { name: 'Contactez-nous', path: '/contact_us' },
-        ].map((button) => (
+      {/* Desktop navigation */}
+      <Flex align="center" display={{ base: 'none', md: 'flex' }} gridGap={1}>
+        {primary.map((item) => (
           <Button
-            key={button.name}
+            key={item.to}
             as={Link}
-            to={button.path}
-            variant="link"
-            color={activeButton === button.name ? '#f7e135' : '#2a8fc1'}
-            mr={4}
-            _hover={{ color: '#f7e135' }}
-            onClick={() => handleButtonClick(button.name)}
+            to={item.to}
+            variant="ghost"
+            size="sm"
+            color={isActive(item.to) ? 'brand.500' : 'text.soft'}
+            fontWeight={isActive(item.to) ? 700 : 500}
+            bg={isActive(item.to) ? hoverBg : 'transparent'}
+            _hover={{ bg: hoverBg, color: 'brand.500' }}
+            px={4}
           >
-            {button.name}
+            {item.label}
           </Button>
         ))}
 
-        {/* Menu déroulant pour les services */}
-        <Menu>
+        {/* Services dropdown */}
+        <Menu placement="bottom-start">
           <MenuButton
             as={Button}
             rightIcon={<ChevronDownIcon />}
-            variant="link"
-            color={activeButton === 'Services' ? '#f7e135' : '#2a8fc1'}
-            _hover={{ color: '#f7e135' }}
-            onClick={() => handleButtonClick('Services')}
+            variant="ghost"
+            size="sm"
+            color={isActive('/services') || isActive('/epargne') || isActive('/credit') ? 'brand.500' : 'text.soft'}
+            fontWeight={isActive('/services') || isActive('/epargne') || isActive('/credit') ? 700 : 500}
+            bg={(isActive('/services') || isActive('/epargne') || isActive('/credit')) ? hoverBg : 'transparent'}
+            _hover={{ bg: hoverBg, color: 'brand.500' }}
+            px={4}
           >
-            Services
+            {t('nav.services')}
           </MenuButton>
           <MenuList>
-            <MenuItem as={Link} to="/epargne">Épargne</MenuItem>
-            <MenuItem as={Link} to="/credit">Crédit</MenuItem>
-          </MenuList>
-        </Menu>
-      </Box>
-
-      {/* Menu de bureau pour options supplémentaires */}
-      <Box display={{ base: 'none', md: 'block' }}>
-        <Menu>
-          <MenuButton
-            as={IconButton}
-            icon={<HamburgerIcon />}
-            variant="outline"
-            color="#2a8fc1"
-            _hover={{ color: '#f7e135' }}
-          />
-          <MenuList>
-            {[
-              { name: 'Offre/Stage', path: '/jobs' },
-              { name: 'Promotion', path: '/promotions' },
-              { name: 'Activités', path: '/activities' },
-              { name: 'Témoignages', path: '/testimonials' },
-              { name: 'FAQ', path: '/faq' },
-              { name: 'Équipes', path: '/teams' },
-            ].map((item) => (
-              <MenuItem
-                key={item.name}
-                as={Link}
-                to={item.path}
-                color={activeButton === item.name ? '#f7e135' : '#2a8fc1'}
-                _hover={{ color: '#f7e135' }}
-                onClick={() => handleButtonClick(item.name)}
-              >
-                {item.name}
+            {services.map((item) => (
+              <MenuItem key={item.to} as={Link} to={item.to} fontWeight={600}>
+                {item.label}
               </MenuItem>
             ))}
           </MenuList>
         </Menu>
-      </Box>
 
-      {/* Menu mobile */}
+        <Divider orientation="vertical" h="24px" mx={2} />
+
+        <IconButton
+          aria-label="Toggle theme"
+          icon={colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
+          onClick={toggleColorMode}
+          variant="ghost"
+          size="sm"
+          color="text.soft"
+          _hover={{ bg: hoverBg, color: 'brand.500' }}
+        />
+
+        <IconButton
+          aria-label={t('footer1.downloadBrochure')}
+          as="a"
+          href={`${process.env.PUBLIC_URL}/microtous-depliant.pdf`}
+          download
+          ml={1}
+          icon={<DownloadIcon />}
+          variant="solid"
+          colorScheme="accent"
+          color="brand.900"
+          size="sm"
+          _hover={{ bg: 'accent.300' }}
+        />
+
+        <Menu placement="bottom-end">
+          <MenuButton
+            as={IconButton}
+            icon={<HamburgerIcon />}
+            aria-label="Menu"
+            variant="ghost"
+            color="text.soft"
+            _hover={{ bg: hoverBg, color: 'brand.500' }}
+          />
+          <MenuList>
+            {secondary.map((item) => (
+              <MenuItem key={item.to} as={Link} to={item.to} fontWeight={600}>
+                {item.label}
+              </MenuItem>
+            ))}
+          </MenuList>
+        </Menu>
+      </Flex>
+
+      {/* Mobile navigation */}
       <Box display={{ base: 'block', md: 'none' }}>
-        <Menu>
-          <MenuButton
-            as={IconButton}
-            icon={<HamburgerIcon />}
-            variant="outline"
-            color="#2a8fc1"
-            _hover={{ color: '#f7e135' }}
+        <Flex align="center" gridGap={2}>
+          <IconButton
+            aria-label="Toggle theme"
+            icon={colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
+            onClick={toggleColorMode}
+            variant="ghost"
+            size="sm"
+            color="text.soft"
+            _hover={{ bg: hoverBg, color: 'brand.500' }}
           />
-          <MenuList>
-            {[
-              { name: 'Accueil', path: '/home' },
-              { name: 'À propos de nous', path: '/about_us' },
-              { name: 'Services', path: '/services' },
-              { name: 'Épargne', path: '/epargne' },
-              { name: 'Crédit', path: '/credit' },
-              { name: 'Contactez-nous', path: '/contact_us' },
-              { name: 'Offre/Stage', path: '/jobs' },
-              { name: 'Activités', path: '/activities' },
-              { name: 'Promotion', path: '/promotions' },
-              { name: 'Équipes', path: '/teams' },
-              { name: 'Témoignages', path: '/testimonials' },
-              { name: 'FAQ', path: '/faq' },
-            ].map((item) => (
+          <Menu placement="bottom-end">
+            <MenuButton
+              as={IconButton}
+              icon={<HamburgerIcon />}
+              aria-label="Menu"
+              variant="outline"
+              color="brand.500"
+              borderColor="border.subtle"
+              _hover={{ bg: hoverBg }}
+            />
+            <MenuList maxH="60vh" overflowY="auto">
               <MenuItem
-                key={item.name}
-                as={Link}
-                to={item.path}
-                color={activeButton === item.name ? '#f7e135' : '#2a8fc1'}
-                _hover={{ color: '#f7e135' }}
-                onClick={() => handleButtonClick(item.name)}
+                as="a"
+                href={`${process.env.PUBLIC_URL}/microtous-depliant.pdf`}
+                download
+                icon={<DownloadIcon />}
+                fontWeight={600}
               >
-                {item.name}
+                {t('footer1.downloadBrochure')}
               </MenuItem>
-            ))}
-          </MenuList>
-        </Menu>
+              {allItems.map((item) => (
+                <MenuItem
+                  key={item.to}
+                  as={Link}
+                  to={item.to}
+                  fontWeight={600}
+                  bg={isActive(item.to) ? hoverBg : 'transparent'}
+                  color={isActive(item.to) ? 'brand.500' : 'inherit'}
+                >
+                  {item.label}
+                </MenuItem>
+              ))}
+            </MenuList>
+          </Menu>
+        </Flex>
       </Box>
     </Flex>
   );

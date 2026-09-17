@@ -3,7 +3,7 @@ import { Card, CardBody, Image, Heading, Text } from '@chakra-ui/react';
 
 function PromotionCard({ title, description, image }) {
   return (
-    <Card borderRadius="md" boxShadow="sm" overflow="hidden" bg="white">
+    <Card borderRadius="md" boxShadow="sm" overflow="hidden" bg="surface.base">
       <CardBody>
         {/* Conditionally render the image if URL is provided */}
         {image && (
@@ -25,7 +25,7 @@ function PromotionCard({ title, description, image }) {
         </Heading>
 
         {/* Description */}
-        <Text fontSize="sm" color="gray.600" mb={4}>
+        <Text fontSize="sm" color="text.soft" mb={4}>
           {description}
         </Text>
       </CardBody>

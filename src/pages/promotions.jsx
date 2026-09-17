@@ -1,154 +1,93 @@
-import React, { useState, useEffect } from 'react';
-import { Box, Heading, Text, Flex, Image, SimpleGrid, Spinner, Alert, AlertIcon } from '@chakra-ui/react';
-import home3 from '../Components/Assetes/home3.jpg'; // Image de fond
-import heroImage from '../Components/Assetes/home1.webp'; // Image du héros
+import React from 'react';
+import { useTranslation } from 'react-i18next';
+import { Box, Container, Heading, Text, SimpleGrid, Flex, Icon, Image, Badge } from '@chakra-ui/react';
+import { FaCalendarAlt, FaCalendarTimes } from 'react-icons/fa';
+import PageHero from '../Components/PageHero';
+import { promotionsData, localize } from '../data';
+import promoImage1 from '../Components/Assetes/home2.jpg';
+import promoImage2 from '../Components/Assetes/home3.jpg';
+import promoImage3 from '../Components/Assetes/1113.jpeg';
+
+const promoImages = {
+  'home2.jpg': promoImage1,
+  'home3.jpg': promoImage2,
+  '1113.jpeg': promoImage3,
+};
 
 const PromotionsSection = () => {
-  const [promotions, setPromotions] = useState([]); // Etat pour stocker les données des promotions
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    // Récupération des données des promotions
-    const fetchPromotions = async () => {
-      try {
-        const response = await fetch('https://microtousadmin.onrender.com/api/promotions/');
-        const data = await response.json();
-        setPromotions(data); // Enregistrement des données dans l'état
-        setIsLoading(false);
-      } catch (error) {
-        console.error('Erreur lors de la récupération des promotions:', error);
-        setError(error.message);
-        setIsLoading(false);
-      }
-    };
-
-    fetchPromotions(); // Appel de la fonction au montage du composant
-  }, []);
-
-  if (isLoading) {
-    return (
-      <Box p={4} textAlign="center">
-        <Spinner size="lg" color="blue.500" />
-        <Text>Chargement...</Text>
-      </Box>
-    );
-  }
-
-  if (error) {
-    return (
-      <Box p={4}>
-        <Alert status="error">
-          <AlertIcon />
-          Erreur : {error}
-        </Alert>
-      </Box>
-    );
-  }
+  const { t, i18n } = useTranslation();
+  const promotions = promotionsData.map((p) => localize(p, i18n.language));
 
   return (
-    <Box>
-      {/* Section Hero */}
-      <Box
-        w="100vw"
-        h="40vh"
-        bgImage={`url(${heroImage})`}
-        bgSize="cover"
-        bgPosition="center"
-        bgRepeat="no-repeat"
-        display="flex"
-        alignItems="center"
-        justifyContent="center"
-        position="relative"
-        m={0}
-        p={0}
-      >
-        <Box
-          position="absolute"
-          top="0"
-          left="0"
-          w="100%"
-          h="100%"
-          bg="rgba(0, 0, 0, 0.6)" // Superposition sombre pour améliorer la lisibilité du texte
-        />
-        <Box zIndex="1" textAlign="center" color="white" p={8}>
-          <Heading as="h1" size="2xl" mb={4}>
-            Promotions
-          </Heading>
-        </Box>
-      </Box>
-
-      {/* Section Promotions */}
-      <Flex
-        direction="column"
-        alignItems="center"
-        justifyContent="center"
-        minHeight="80vh"
-        bgImage={`url(${home3})`}
-        bgSize="cover"
-        bgPosition="center"
-        p={4}
-        backgroundBlendMode="overlay"
-        backgroundColor="rgba(0, 0, 0, 0.5)"
-      >
-        <Box
-          bg="white"
-          borderRadius="md"
-          boxShadow="lg"
-          p={8}
-          width={{ base: '100%', md: '95%', lg: '80%' }} // Ajuster la largeur en fonction de la taille de l'écran
-          textAlign="center"
-        >
-          <Heading as="h2" size="xl" mb={4}>
-            Promotions
-          </Heading>
-          <Text mb={4}>Découvrez nos dernières promotions et offres spéciales.</Text>
-
-          {/* Affichage des promotions */}
-          <SimpleGrid columns={{ base: 1, sm: 2, md: 3, lg: 3 }} spacing={8} mt={8}>
-            {promotions.map((promotion) => {
-              const imageUrl = promotion.image && promotion.image.startsWith('/media/')
-                ? `http://127.0.0.1:8000${promotion.image}`
-                : promotion.image;
-
-              return (
-                <Box
-                  key={promotion.id}
-                  bg="white"
-                  p={6}
-                  borderRadius="md"
-                  boxShadow="lg"
-                  textAlign="center"
-                >
-                  {/* Affichage de l'image si l'URL est fournie */}
-                  {promotion.image && (
-                    <Image
-                      src={imageUrl}
-                      alt={promotion.title}
-                      borderRadius="md"
-                      mb={4}
-                      objectFit="cover"
-                      width="100%"
-                      height={{ base: '200px', md: '250px' }}
-                      fallbackSrc="https://via.placeholder.com/150"
-                    />
-                  )}
-
-                  {/* Titre de la promotion */}
-                  <Heading as="h3" size="md" mb={2}>
+    <Box pb={16}>
+      <PageHero title={t('promotions.heroTitle')} subtitle={t('promotions.subtitle')} />
+      <Box as="section" py={{ base: 14, md: 20 }} bg="surface.muted">
+        <Container maxW="7xl">
+          <Box maxW="700px" mx="auto" textAlign="center" mb={12}>
+            <Heading as="h2" size="xl">
+              {t('promotions.title')}
+            </Heading>
+            <Box w="56px" h="5px" bg="brand.500" borderRadius="full" mx="auto" mt={4} />
+          </Box>
+          {promotions.length === 0 ? (
+            <Box
+              bg="surface.base"
+              borderRadius="2xl"
+              boxShadow="sm"
+              border="1px solid"
+              borderColor="border.subtle"
+              p={{ base: 12, md: 16 }}
+              textAlign="center"
+            >
+              <Text color="text.soft" fontSize="lg">
+                {t('promotions.comingSoon')}
+              </Text>
+            </Box>
+          ) : (
+          <SimpleGrid columns={{ base: 1, md: 3 }} spacing={8}>
+            {promotions.map((promotion) => (
+              <Box
+                key={promotion.id}
+                bg="surface.base"
+                borderRadius="2xl"
+                border="1px solid"
+                borderColor="border.subtle"
+                boxShadow="sm"
+                overflow="hidden"
+                transition="transform 0.25s ease, boxShadow 0.25s ease"
+                _hover={{ transform: 'translateY(-6px)', boxShadow: 'xl' }}
+              >
+                <Image
+                  src={promoImages[promotion.image]}
+                  alt={promotion.title}
+                  objectFit="cover"
+                  w="100%"
+                  h="200px"
+                />
+                <Box textAlign="center" p={8}>
+                  <Heading as="h3" size="md" mb={3}>
                     {promotion.title}
                   </Heading>
-
-                  {/* Description de la promotion */}
-                  <Text fontSize="sm" color="gray.600" mb={4}>
+                  <Text color="text.muted" fontSize="sm" mb={6}>
                     {promotion.description}
                   </Text>
+                  <Flex justify="center" gap={3} flexWrap="wrap">
+                    <Badge colorScheme="brand" borderRadius="full" px={4} py={1.5} fontSize="sm">
+                      <Icon as={FaCalendarAlt} mr={2} />
+                      {t('promotions.startDate')} {promotion.start_date}
+                    </Badge>
+                    <Badge colorScheme="accent" color="brand.900" borderRadius="full" px={4} py={1.5} fontSize="sm">
+                      <Icon as={FaCalendarTimes} mr={2} />
+                      {t('promotions.dueDate')} {promotion.end_date}
+                    </Badge>
+                  </Flex>
                 </Box>
-              );
-            })}
+              </Box>
+            ))}
           </SimpleGrid>
-        </Box>
-      </Flex>
+          )}
+        </Container>
+      </Box>
     </Box>
   );
 };
